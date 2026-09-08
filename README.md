@@ -41,7 +41,7 @@ Instructions :
 
 ## 🔗 Lien du dépôt GitHub PUBLIC
 
-**URL** : https://github.com/Kkiriya/Music-Web-App-Tp2-Algo
+**URL** : https://github.com/Kkiriya/Music-Playlist-Manager
 
 > ⚠️ Vérifier que le dépôt est **PUBLIC** et accessible sans authentification.
 > Tester le lien dans un navigateur privé avant la remise.
@@ -116,8 +116,8 @@ Music-Playlist-Manager/
 
 ```bash
 # 1. Cloner le dépôt
-git clone [URL DU DEPOT]
-cd [nom-du-dossier]
+git clone https://github.com/Kkiriya/Music-Playlist-Manager
+cd Music-Playlist-Manager
 
 # 2. Compiler
 mvn clean compile
