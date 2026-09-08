@@ -1,8 +1,8 @@
-module com.maisonneuve.musicwebapptp2algo {
+module com.maisonneuve.music_playlist_manager {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens com.maisonneuve.musicwebapptp2algo to javafx.fxml;
-    exports com.maisonneuve.musicwebapptp2algo;
+    opens com.maisonneuve.music_playlist_manager to javafx.fxml;
+    exports com.maisonneuve.music_playlist_manager;
 }

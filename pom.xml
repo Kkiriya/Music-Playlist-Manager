@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.maisonneuve</groupId>
-    <artifactId>MusicWebApp-TP2-Algo</artifactId>
+    <artifactId>MusicPlaylistManager</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>MusicWebApp-TP2-Algo</name>
 
@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.maisonneuve.musicwebapptp2algo/com.maisonneuve.musicwebapptp2algo.HelloApplication
+                                com.maisonneuve.musicwebapptp2algo/com.maisonneuve.music_playlist_manager.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

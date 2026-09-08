@@ -1,4 +1,4 @@
-package com.maisonneuve.musicwebapptp2algo;
+package com.maisonneuve.music_playlist_manager;
 
 import javafx.application.Application;
 

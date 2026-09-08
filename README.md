@@ -1,19 +1,20 @@
-<!--
-====================================================================
-  LABORATOIRE 2 - 420-930-MA - Ete 2026 - gr. 25604
-  Template README a remplir et deposer sur Teams avant la deadline
+# <!--
+
+LABORATOIRE 2 - 420-930-MA - Ete 2026 - gr. 25604
+Template README a remplir et deposer sur Teams avant la deadline
 ====================================================================
 
 Instructions :
-  1. Copiez ce fichier dans votre depot GitHub sous le nom README.md
-  2. Remplissez toutes les sections marquees [A COMPLETER]
-  3. Supprimez tous les commentaires HTML (<!-- ... -->) avant la remise
-  4. Deposez ce fichier (rempli) sur Teams, canal du groupe
-     avec le titre : "Lab2 - Sujet X - Nom1 Nom2 [Nom3]"
-====================================================================
--->
 
-# [A COMPLETER : Nom du projet, ex. "Netflix Catalog - Lab2"]
+1. Copiez ce fichier dans votre depot GitHub sous le nom README.md
+2. Remplissez toutes les sections marquees [A COMPLETER]
+3. Supprimez tous les commentaires HTML (<!-- ... -->) avant la remise
+4. Deposez ce fichier (rempli) sur Teams, canal du groupe
+   avec le titre : "Lab2 - Sujet X - Nom1 Nom2 [Nom3]"
+   ====================================================================
+   -->
+
+# Mudic Catalog - Lab2
 
 **Cours** : 420-930-MA — Algorithmes et modèles de programmation
 **Session** : Été 2026, groupe 25604
@@ -24,24 +25,23 @@ Instructions :
 
 ## Équipe
 
-| Nom complet | Adresse courriel | Contribution principale |
-|-------------|------------------|--------------------------|
-| [A COMPLETER : Nom Prénom 1] | [courriel1] | [ex : Modèle, Service, Tris] |
-| [A COMPLETER : Nom Prénom 2] | [courriel2] | [ex : UI FXML, Controller, CSS] |
-| [A COMPLETER : Nom Prénom 3 si équipe de 3] | [courriel3] | [ex : Algorithmes, Benchmark] |
+| Nom complet    | Adresse courriel   | Contribution principale           |
+| -------------- | ------------------ | --------------------------------- |
+| Émile Valade   | e.valade@proton.me | Modèle + Service + Tris (backend) |
+| Jean-Simon Cyr | [courriel2]        | XML + Controller + CSS (frontend) |
 
 ---
 
 ## Sujet choisi
 
-**Numéro du sujet** : [A COMPLETER : 1, 2, 3, 4 ou 5]
-**Nom du sujet** : [A COMPLETER : ex. "Netflix Catalog"]
+**Numéro du sujet** : 3
+**Nom du sujet** : Spotify Playlist Manager
 
 ---
 
 ## 🔗 Lien du dépôt GitHub PUBLIC
 
-**URL** : [A COMPLETER : https://github.com/USERNAME/nom-du-projet]
+**URL** : https://github.com/Kkiriya/Music-Web-App-Tp2-Algo
 
 > ⚠️ Vérifier que le dépôt est **PUBLIC** et accessible sans authentification.
 > Tester le lien dans un navigateur privé avant la remise.
@@ -84,7 +84,7 @@ Instructions :
 ```
 [A COMPLETER : arborescence de ton projet, ex.]
 
-netflix-catalog/
+Music-Playlist-Manager/
 ├── pom.xml
 ├── src/main/
 │   ├── java/
@@ -138,15 +138,19 @@ mvn javafx:run
 ## Choix techniques
 
 ### Version Java utilisée
+
 [A COMPLETER : ex. Java 21 avec JavaFX 21]
 
 ### Format des données
+
 [A COMPLETER : CSV / JSON, séparateur, encodage, nombre de lignes]
 
 ### Algorithmes de tri implémentés
+
 [A COMPLETER : lister les 3+ tris avec leur complexité théorique]
 
 ### Bibliothèques externes utilisées
+
 [A COMPLETER : liste des dépendances Maven au-delà de JavaFX]
 
 ---
@@ -159,11 +163,11 @@ mvn javafx:run
 
 ## Répartition du travail (auto-évaluation)
 
-| Membre | % contribution estimée | Ce sur quoi j'ai travaillé |
-|--------|-----------------------|------------------------------|
-| [Nom 1] | [ex : 50%] | [description] |
-| [Nom 2] | [ex : 50%] | [description] |
-| [Nom 3] | [si applicable] | [description] |
+| Membre  | % contribution estimée | Ce sur quoi j'ai travaillé |
+| ------- | ---------------------- | -------------------------- |
+| [Nom 1] | [ex : 50%]             | [description]              |
+| [Nom 2] | [ex : 50%]             | [description]              |
+| [Nom 3] | [si applicable]        | [description]              |
 
 ---
 
@@ -178,11 +182,14 @@ mvn javafx:run
 [A COMPLETER (fortement recommandé) : mettre 2-3 captures d'écran de l'application dans un dossier `screenshots/` du dépôt et les référencer ici]
 
 Exemple :
+
 ```markdown
 ### Écran principal
+
 ![Écran principal](screenshots/principal.png)
 
 ### Écran de benchmark
+
 ![Benchmark](screenshots/benchmark.png)
 ```
 
@@ -198,10 +205,9 @@ Voir l'onglet **Insights > Contributors** de GitHub pour voir la contribution de
 
 ---
 
-<!--
-====================================================================
-  CHECKLIST FINALE AVANT LA REMISE (a supprimer avant remise)
-====================================================================
+# <!--
+
+# CHECKLIST FINALE AVANT LA REMISE (a supprimer avant remise)
 
 [ ] Tous les [A COMPLETER] ont ete remplaces par de vrais contenus
 [ ] Tous les commentaires HTML <!-- ... --> ont ete supprimes
@@ -215,6 +221,6 @@ Voir l'onglet **Insights > Contributors** de GitHub pour voir la contribution de
 [ ] Chaque membre de l'equipe a des commits a son nom
 [ ] Ce fichier README rempli a ete deposé sur Teams
 
-DATE LIMITE : 11 septembre 2026, 23h59
-====================================================================
+# DATE LIMITE : 11 septembre 2026, 23h59
+
 -->
