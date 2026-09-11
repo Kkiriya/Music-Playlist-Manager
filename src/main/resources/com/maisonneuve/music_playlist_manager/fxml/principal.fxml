@@ -18,13 +18,32 @@
     <center>
         <VBox fx:id="filterListContainer" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <HBox fx:id="filterContainer" alignment="CENTER" prefHeight="53.0" prefWidth="600.0" spacing="12.0">
+                <HBox fx:id="filterContainer" alignment="CENTER" prefHeight="70.0" prefWidth="600.0" spacing="12.0">
                     <children>
-                        <Label text="Filtre"/>
-                        <TextField fx:id="searchField" prefHeight="25.0" prefWidth="124.0"/>
-                        <ComboBox fx:id="genreFilter" prefHeight="25.0" prefWidth="89.0" promptText="Genre"/>
-                        <ComboBox fx:id="decennieFilter" prefHeight="25.0" prefWidth="86.0" promptText="Décénnie"/>
-                        <ComboBox fx:id="releaseYearFilter" prefHeight="25.0" prefWidth="79.0" promptText="Année"/>
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Recherche"/>
+                                <TextField fx:id="searchField" prefHeight="25.0" prefWidth="124.0"/>
+                            </children>
+                        </VBox>
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Genre"/>
+                                <ComboBox fx:id="genreFilter" prefHeight="25.0" prefWidth="100.0" promptText="Tous"/>
+                            </children>
+                        </VBox>
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Décennie"/>
+                                <ComboBox fx:id="decennieFilter" prefHeight="25.0" prefWidth="100.0" promptText="Toutes"/>
+                            </children>
+                        </VBox>
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Année"/>
+                                <ComboBox fx:id="releaseYearFilter" prefHeight="25.0" prefWidth="90.0" promptText="Toutes"/>
+                            </children>
+                        </VBox>
                     </children>
                     <VBox.margin>
                         <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>
@@ -36,7 +55,7 @@
                         <TableColumn maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Artiste"/>
                         <TableColumn prefWidth="75.0" text="Album"/>
                         <TableColumn prefWidth="75.0" text="Genre"/>
-                        <TableColumn prefWidth="75.0" text="Duré"/>
+                        <TableColumn prefWidth="75.0" text="Durée"/>
                         <TableColumn prefWidth="92.66668701171875" text="Date de sortie"/>
                         <TableColumn prefWidth="75.0" text="Écoute total"/>
                     </columns>
