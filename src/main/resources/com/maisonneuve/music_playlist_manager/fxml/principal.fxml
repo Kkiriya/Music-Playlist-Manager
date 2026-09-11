@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:controller="com.maisonneuve.music_playlist_manager.controller.PrincipalController" maxHeight="-Infinity"
+            maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <VBox fx:id="filterListContainer" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox fx:id="filterContainer" alignment="CENTER" prefHeight="53.0" prefWidth="600.0" spacing="12.0">
+                    <children>
+                        <Label text="Filtre"/>
+                        <TextField fx:id="searchField" prefHeight="25.0" prefWidth="124.0"/>
+                        <ComboBox fx:id="genreFilter" prefHeight="25.0" prefWidth="89.0" promptText="Genre"/>
+                        <ComboBox fx:id="decennieFilter" prefHeight="25.0" prefWidth="86.0" promptText="Décénnie"/>
+                        <ComboBox fx:id="releaseYearFilter" prefHeight="25.0" prefWidth="79.0" promptText="Année"/>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>
+                    </VBox.margin>
+                </HBox>
+                <TableView fx:id="tableGameList">
+                    <columns>
+                        <TableColumn minWidth="-1.0" prefWidth="-1.0" text="Titre"/>
+                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Artiste"/>
+                        <TableColumn prefWidth="75.0" text="Album"/>
+                        <TableColumn prefWidth="75.0" text="Genre"/>
+                        <TableColumn prefWidth="75.0" text="Duré"/>
+                        <TableColumn prefWidth="92.66668701171875" text="Date de sortie"/>
+                        <TableColumn prefWidth="75.0" text="Écoute total"/>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+                <HBox alignment="CENTER" prefHeight="40.0" prefWidth="491.0">
+                    <children>
+                        <Button fx:id="btnPrevious" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                mnemonicParsing="false" text="Précédent">
+                            <HBox.margin>
+                                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Label fx:id="lblPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                               text="Label">
+                            <padding>
+                                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>
+                            </padding>
+                        </Label>
+                        <Button fx:id="btnNext" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                mnemonicParsing="false" text="suivant">
+                            <HBox.margin>
+                                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+    <top>
+        <HBox prefHeight="20.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fx:id="logo" fitHeight="69.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                </ImageView>
+                <Button mnemonicParsing="false" text="Benchmark"/>
+            </children>
+        </HBox>
+    </top>
+    <left>
+        <VBox fx:id="sortContainer" prefHeight="327.0" prefWidth="117.0" spacing="8.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Tri"/>
+                <ComboBox fx:id="sortCriterionChoice" prefWidth="140.0" promptText="Trier par"/>
+                <ComboBox fx:id="sortOrderChoice" prefWidth="140.0" promptText="Ordre"/>
+                <ComboBox fx:id="sortAlgorithmChoice" prefWidth="140.0" promptText="Algorithme"/>
+                <Button fx:id="sortButton" mnemonicParsing="false" prefWidth="140.0" text="Trier"/>
+            </children>
+            <BorderPane.margin>
+                <Insets/>
+            </BorderPane.margin>
+            <padding>
+                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+            </padding>
+        </VBox>
+    </left>
+</BorderPane>

@@ -11,6 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>17</maven.compiler.release>
         <junit.version>5.12.1</junit.version>
     </properties>
 
@@ -46,10 +47,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -61,7 +58,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.maisonneuve.musicwebapptp2algo/com.maisonneuve.music_playlist_manager.HelloApplication
+                                com.maisonneuve.music_playlist_manager/com.maisonneuve.music_playlist_manager.MainFx
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
