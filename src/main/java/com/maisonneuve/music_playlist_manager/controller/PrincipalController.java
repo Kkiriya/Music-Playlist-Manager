@@ -9,6 +9,14 @@ public class PrincipalController {
     private ComboBox<Genre> genreFilter;
     @FXML
     private ComboBox<String> decennieFilter;
+    @FXML
+    private ComboBox<String> sortCriterionChoice;
+    @FXML
+    private ComboBox<String> sortOrderChoice;
+    @FXML
+    private ComboBox<String> sortAlgorithmChoice;
+    @FXML
+    private ComboBox<String> pageSizeComboBox;
 
     @FXML
     public void initialize() {
@@ -25,5 +33,30 @@ public class PrincipalController {
         );
 
         decennieFilter.setValue("Toutes");
+
+        sortCriterionChoice.getItems().setAll(
+          "Titre",
+          "Artiste",
+          "Durée",
+          "Année",
+          "Écoutes",
+          "Genre"
+        );
+        sortCriterionChoice.setValue("Titre");
+
+        sortOrderChoice.getItems().setAll("Croissant", "Décroissant");
+        sortOrderChoice.setValue("Croissant");
+
+        sortAlgorithmChoice.getItems().setAll(
+          "Bubble sort",
+          "Selection sort",
+          "Insertion sort",
+          "Merge sort",
+          "Quick sort"
+        );
+        sortAlgorithmChoice.setValue("Bubble sort");
+
+        pageSizeComboBox.getItems().setAll("10", "25", "50", "100");
+        pageSizeComboBox.setValue("25");
     }
 }

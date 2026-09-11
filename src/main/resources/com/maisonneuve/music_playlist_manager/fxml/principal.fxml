@@ -4,53 +4,73 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.maisonneuve.music_playlist_manager.controller.PrincipalController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.maisonneuve.music_playlist_manager.controller.PrincipalController">
     <center>
-        <VBox fx:id="filterListContainer" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+        <VBox fx:id="mainContentBox" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <HBox fx:id="filterContainer" alignment="CENTER" prefHeight="70.0" prefWidth="600.0" spacing="12.0">
+                <VBox fx:id="filterContainer" spacing="8.0">
                     <children>
-                        <VBox spacing="4.0">
+                        <HBox alignment="CENTER_LEFT" spacing="12.0">
                             <children>
-                                <Label text="Recherche" />
-                                <TextField fx:id="searchField" prefHeight="25.0" prefWidth="124.0" />
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label text="Recherche" />
+                                        <TextField fx:id="searchField" prefHeight="25.0" prefWidth="170.0" promptText="Titre ou artiste" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label text="Genre" />
+                                        <ComboBox fx:id="genreFilter" prefHeight="25.0" prefWidth="120.0" promptText="Tous" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label text="Décennie" />
+                                        <ComboBox fx:id="decennieFilter" prefHeight="25.0" prefWidth="120.0" promptText="Toutes" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label text="Artiste" />
+                                        <ComboBox fx:id="artistFilter" prefHeight="25.0" prefWidth="150.0" promptText="Tous" />
+                                    </children>
+                                </VBox>
                             </children>
-                        </VBox>
-                        <VBox spacing="4.0">
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="12.0">
                             <children>
-                                <Label text="Genre" />
-                                <ComboBox fx:id="genreFilter" prefHeight="25.0" prefWidth="100.0" promptText="Tous" />
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label text="Durée max" />
+                                        <Slider fx:id="maxDurationSlider" blockIncrement="30.0" majorTickUnit="60.0" max="600.0" prefWidth="220.0" showTickLabels="true" showTickMarks="true" value="600.0" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label text="Écoutes min" />
+                                        <Slider fx:id="minListenCountSlider" blockIncrement="100.0" majorTickUnit="1000.0" max="10000.0" prefWidth="220.0" showTickLabels="true" showTickMarks="true" />
+                                    </children>
+                                </VBox>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button fx:id="resetFiltersButton" mnemonicParsing="false" text="Réinitialiser" />
                             </children>
-                        </VBox>
-                        <VBox spacing="4.0">
-                            <children>
-                                <Label text="Décennie" />
-                                <ComboBox fx:id="decennieFilter" prefHeight="25.0" prefWidth="100.0" promptText="Toutes" />
-                            </children>
-                        </VBox>
-                        <VBox spacing="4.0">
-                            <children>
-                                <Label text="Année" />
-                                <ComboBox fx:id="releaseYearFilter" prefHeight="25.0" prefWidth="90.0" promptText="Toutes" />
-                            </children>
-                        </VBox>
+                        </HBox>
                     </children>
-                    <VBox.margin>
-                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
-                    </VBox.margin>
-                </HBox>
-                <TableView fx:id="tableSongList">
+                </VBox>
+                <TableView fx:id="tableSongList" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="titleColumn" prefWidth="150.0" text="Titre" />
                         <TableColumn fx:id="artistColumn" prefWidth="120.0" text="Artiste" />
@@ -63,26 +83,20 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
                 </TableView>
-                <HBox alignment="CENTER" prefHeight="40.0" prefWidth="491.0">
+                <HBox alignment="CENTER" spacing="12.0">
                     <children>
-                        <Button fx:id="btnPrevious" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Précédent">
-                            <HBox.margin>
-                                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
-                            </HBox.margin>
-                        </Button>
-                        <Label fx:id="lblPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label">
-                            <padding>
-                                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
-                            </padding>
-                        </Label>
-                        <Button fx:id="btnNext" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="suivant">
-                            <HBox.margin>
-                                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
-                            </HBox.margin>
-                        </Button>
+                        <Button fx:id="btnPrevious" mnemonicParsing="false" text="Précédent" />
+                        <Label fx:id="lblPage" text="Page 1 / 1" />
+                        <Button fx:id="btnNext" mnemonicParsing="false" text="Suivant" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label text="Par page" />
+                        <ComboBox fx:id="pageSizeComboBox" prefWidth="80.0" promptText="25" />
                     </children>
                 </HBox>
             </children>
+            <padding>
+                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+            </padding>
         </VBox>
     </center>
     <top>
@@ -103,13 +117,28 @@
         </HBox>
     </top>
     <left>
-        <VBox fx:id="sortContainer" prefHeight="327.0" prefWidth="117.0" spacing="8.0" BorderPane.alignment="CENTER">
+        <VBox fx:id="sortContainer" prefWidth="170.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Label text="Tri" />
-                <ComboBox fx:id="sortCriterionChoice" prefWidth="140.0" promptText="Trier par" />
-                <ComboBox fx:id="sortOrderChoice" prefWidth="140.0" promptText="Ordre" />
-                <ComboBox fx:id="sortAlgorithmChoice" prefWidth="140.0" promptText="Algorithme" />
-                <Button fx:id="sortButton" mnemonicParsing="false" prefWidth="140.0" text="Trier" />
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Tri" />
+                <VBox spacing="4.0">
+                    <children>
+                        <Label text="Critère" />
+                        <ComboBox fx:id="sortCriterionChoice" prefWidth="150.0" promptText="Trier par" />
+                    </children>
+                </VBox>
+                <VBox spacing="4.0">
+                    <children>
+                        <Label text="Ordre" />
+                        <ComboBox fx:id="sortOrderChoice" prefWidth="150.0" promptText="Ordre" />
+                    </children>
+                </VBox>
+                <VBox spacing="4.0">
+                    <children>
+                        <Label text="Algorithme" />
+                        <ComboBox fx:id="sortAlgorithmChoice" prefWidth="150.0" promptText="Algorithme" />
+                    </children>
+                </VBox>
+                <Button fx:id="sortButton" mnemonicParsing="false" prefWidth="150.0" text="Trier" />
             </children>
             <BorderPane.margin>
                 <Insets />
@@ -137,7 +166,41 @@
             </padding>
         </VBox>
     </right>
-   <bottom>
-      <HBox fx:id="steamSongBox" prefHeight="61.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
-   </bottom>
+    <bottom>
+        <HBox fx:id="playerBox" alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="600.0" spacing="16.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox spacing="4.0">
+                    <children>
+                        <Label fx:id="currentSongTitleLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Aucune chanson en cours" />
+                        <Label fx:id="currentSongArtistLabel" text="Artiste: -" />
+                    </children>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="previousTrackButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" text="⏪">
+                    <tooltip>
+                        <Tooltip text="Précédent" />
+                    </tooltip>
+                </Button>
+                <Button fx:id="playPauseButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" text="▶️">
+                    <tooltip>
+                        <Tooltip text="Lecture / pause" />
+                    </tooltip>
+                </Button>
+                <Button fx:id="nextTrackButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" text="⏩">
+                    <tooltip>
+                        <Tooltip text="Suivant" />
+                    </tooltip>
+                </Button>
+                <Button fx:id="shuffleButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" text="🔀">
+                    <tooltip>
+                        <Tooltip text="Lecture aléatoire" />
+                    </tooltip>
+                </Button>
+                <Slider fx:id="playbackProgressSlider" prefWidth="160.0" />
+            </children>
+            <padding>
+                <Insets bottom="12.0" left="16.0" right="16.0" top="12.0" />
+            </padding>
+        </HBox>
+    </bottom>
 </BorderPane>
