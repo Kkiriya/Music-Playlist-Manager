@@ -1,10 +1,21 @@
 package com.maisonneuve.music_playlist_manager.controller;
 
 import com.maisonneuve.music_playlist_manager.model.Genre;
+import com.maisonneuve.music_playlist_manager.model.Song;
+import com.maisonneuve.music_playlist_manager.util.CsvReader;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+import java.util.List;
 
 public class PrincipalController {
+    private PaginationManager paginationManager;
+    private SongSortManager songSortManager;
+
     @FXML
     private ComboBox<Genre> genreFilter;
     @FXML
@@ -17,46 +28,150 @@ public class PrincipalController {
     private ComboBox<String> sortAlgorithmChoice;
     @FXML
     private ComboBox<String> pageSizeComboBox;
+    @FXML
+    private Button sortButton;
+    @FXML
+    private Button btnPrevious;
+    @FXML
+    private Button btnNext;
+    @FXML
+    private Label lblPage;
+    @FXML
+    private TableView<Song> tableSongList;
+    @FXML
+    private TableColumn<Song, String> titleColumn;
+    @FXML
+    private TableColumn<Song, String> artistColumn;
+    @FXML
+    private TableColumn<Song, Genre> genreColumn;
+    @FXML
+    private TableColumn<Song, String> releaseYearColumn;
+    @FXML
+    private TableColumn<Song, Integer> durationColumn;
+    @FXML
+    private TableColumn<Song, Integer> listenCountColumn;
+    @FXML
+    private Label selectedSongTitleLabel;
+    @FXML
+    private Label selectedSongArtistLabel;
+    @FXML
+    private Label selectedSongAlbumLabel;
+    @FXML
+    private Label selectedSongGenreLabel;
+    @FXML
+    private Label selectedSongReleaseYearLabel;
+    @FXML
+    private Label selectedSongDurationLabel;
+    @FXML
+    private Label selectedSongListenCountLabel;
 
     @FXML
     public void initialize() {
-        genreFilter.getItems().setAll(Genre.values());
+        setupTableManager();
+        setupDetailManager();
+        setupPaginationManager();
+        setupSortManager();
+        setupFilters();
+        setupSortChoices();
+        setupPageSizeChoices();
+        loadSongs();
+    }
 
-        decennieFilter.getItems().setAll(
-          "Toutes",
-          "1970s",
-          "1980s",
-          "1990s",
-          "2000s",
-          "2010s",
-          "2020s"
+    private void setupTableManager() {
+        SongTableManager songTableManager = new SongTableManager(
+                titleColumn,
+                artistColumn,
+                genreColumn,
+                releaseYearColumn,
+                durationColumn,
+                listenCountColumn
         );
+        songTableManager.setupColumns();
+    }
 
+    private void setupDetailManager() {
+        SongDetailManager songDetailManager = new SongDetailManager(
+                tableSongList,
+                selectedSongTitleLabel,
+                selectedSongArtistLabel,
+                selectedSongAlbumLabel,
+                selectedSongGenreLabel,
+                selectedSongReleaseYearLabel,
+                selectedSongDurationLabel,
+                selectedSongListenCountLabel
+        );
+        songDetailManager.setupSelectionListener();
+    }
+
+    private void setupPaginationManager() {
+        paginationManager = new PaginationManager(
+                tableSongList,
+                btnPrevious,
+                btnNext,
+                lblPage,
+                pageSizeComboBox
+        );
+        paginationManager.setup();
+    }
+
+    private void setupSortManager() {
+        songSortManager = new SongSortManager(
+                sortCriterionChoice,
+                sortOrderChoice,
+                sortAlgorithmChoice,
+                sortButton,
+                sortedSongs -> paginationManager.setSongs(sortedSongs)
+        );
+        songSortManager.setup();
+    }
+
+    private void setupFilters() {
+        genreFilter.getItems().setAll(Genre.values());
+        decennieFilter.getItems().setAll(
+                "Toutes",
+                "1970s",
+                "1980s",
+                "1990s",
+                "2000s",
+                "2010s",
+                "2020s"
+        );
         decennieFilter.setValue("Toutes");
+    }
 
+    private void setupSortChoices() {
         sortCriterionChoice.getItems().setAll(
-          "Titre",
-          "Artiste",
-          "Durée",
-          "Année",
-          "Écoutes",
-          "Genre"
+                "Titre",
+                "Artiste",
+                "Duree",
+                "Annee",
+                "Ecoutes",
+                "Genre"
         );
         sortCriterionChoice.setValue("Titre");
 
-        sortOrderChoice.getItems().setAll("Croissant", "Décroissant");
+        sortOrderChoice.getItems().setAll("Croissant", "Decroissant");
         sortOrderChoice.setValue("Croissant");
 
         sortAlgorithmChoice.getItems().setAll(
-          "Bubble sort",
-          "Selection sort",
-          "Insertion sort",
-          "Merge sort",
-          "Quick sort"
+                "Bubble sort",
+                "Selection sort",
+                "Insertion sort",
+                "Merge sort",
+                "Quick sort"
         );
         sortAlgorithmChoice.setValue("Bubble sort");
+    }
 
+    private void setupPageSizeChoices() {
         pageSizeComboBox.getItems().setAll("10", "25", "50", "100");
         pageSizeComboBox.setValue("25");
+    }
+
+    private void loadSongs() {
+        CsvReader csvReader = new CsvReader();
+        List<Song> songs = csvReader.readSongs();
+        songSortManager.setSongs(songs);
+        paginationManager.setSongs(songs);
     }
 }
