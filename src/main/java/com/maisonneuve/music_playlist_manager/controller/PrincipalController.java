@@ -7,11 +7,20 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PrincipalController {
+    private List<Song> allSongs = new ArrayList<>();
+    private int currentPage = 1;
+    private int pageSize = 25;
+
     @FXML
     private ComboBox<Genre> genreFilter;
     @FXML
@@ -24,6 +33,12 @@ public class PrincipalController {
     private ComboBox<String> sortAlgorithmChoice;
     @FXML
     private ComboBox<String> pageSizeComboBox;
+    @FXML
+    private Button btnPrevious;
+    @FXML
+    private Button btnNext;
+    @FXML
+    private Label lblPage;
     @FXML
     private TableView<Song> tableSongList;
     @FXML
@@ -42,7 +57,7 @@ public class PrincipalController {
     @FXML
     public void initialize() {
         setupSongTable();
-        loadSongs();
+        setupPagination();
 
         genreFilter.getItems().setAll(Genre.values());
 
@@ -82,6 +97,8 @@ public class PrincipalController {
 
         pageSizeComboBox.getItems().setAll("10", "25", "50", "100");
         pageSizeComboBox.setValue("25");
+
+        loadSongs();
     }
 
     /**
@@ -105,6 +122,64 @@ public class PrincipalController {
 
     private void loadSongs() {
         CsvReader csvReader = new CsvReader();
-        tableSongList.getItems().setAll(csvReader.readSongs());
+        allSongs = csvReader.readSongs();
+        currentPage = 1;
+        updatePage();
+    }
+
+    /**
+     * Connects the pagination buttons and page size choice.
+     */
+    private void setupPagination() {
+        btnPrevious.setOnAction(event -> previousPage());
+        btnNext.setOnAction(event -> nextPage());
+
+        pageSizeComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                return;
+            }
+
+            pageSize = Integer.parseInt(newValue);
+            currentPage = 1;
+            updatePage();
+        });
+    }
+
+    private void previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            updatePage();
+        }
+    }
+
+    private void nextPage() {
+        if (currentPage < getTotalPages()) {
+            currentPage++;
+            updatePage();
+        }
+    }
+
+    private void updatePage() {
+        int totalPages = getTotalPages();
+        int fromIndex = (currentPage - 1) * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, allSongs.size());
+
+        if (allSongs.isEmpty()) {
+            tableSongList.getItems().clear();
+        } else {
+            tableSongList.getItems().setAll(allSongs.subList(fromIndex, toIndex));
+        }
+
+        lblPage.setText("Page " + currentPage + " / " + totalPages);
+        btnPrevious.setDisable(currentPage <= 1);
+        btnNext.setDisable(currentPage >= totalPages);
+    }
+
+    private int getTotalPages() {
+        if (allSongs.isEmpty()) {
+            return 1;
+        }
+
+        return (int) Math.ceil((double) allSongs.size() / pageSize);
     }
 }
