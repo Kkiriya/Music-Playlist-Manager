@@ -6,7 +6,7 @@ public enum Genre {
     HIP_HOP("Hip Hop"),
     JAZZ("Jazz"),
     CLASSICAL("Classique"),
-    ELECTRONIC("Électronique");
+    ELECTRONIC("Electronique");
 
     private final String displayName;
 
