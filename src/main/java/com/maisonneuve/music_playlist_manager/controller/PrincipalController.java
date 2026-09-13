@@ -7,19 +7,26 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.util.List;
 
 public class PrincipalController {
     private PaginationManager paginationManager;
     private SongSortManager songSortManager;
+    private SongFilterManager songFilterManager;
 
     @FXML
-    private ComboBox<Genre> genreFilter;
+    private TextField searchField;
+    @FXML
+    private ComboBox<String> genreFilter;
     @FXML
     private ComboBox<String> decennieFilter;
+    @FXML
+    private ComboBox<String> artistFilter;
     @FXML
     private ComboBox<String> sortCriterionChoice;
     @FXML
@@ -28,6 +35,12 @@ public class PrincipalController {
     private ComboBox<String> sortAlgorithmChoice;
     @FXML
     private ComboBox<String> pageSizeComboBox;
+    @FXML
+    private Slider maxDurationSlider;
+    @FXML
+    private Slider minListenCountSlider;
+    @FXML
+    private Button resetFiltersButton;
     @FXML
     private Button sortButton;
     @FXML
@@ -71,6 +84,7 @@ public class PrincipalController {
         setupDetailManager();
         setupPaginationManager();
         setupSortManager();
+        setupFilterManager();
         setupFilters();
         setupSortChoices();
         setupPageSizeChoices();
@@ -125,8 +139,30 @@ public class PrincipalController {
         songSortManager.setup();
     }
 
+    private void setupFilterManager() {
+        songFilterManager = new SongFilterManager(
+                searchField,
+                genreFilter,
+                decennieFilter,
+                artistFilter,
+                maxDurationSlider,
+                minListenCountSlider,
+                resetFiltersButton,
+                filteredSongs -> {
+                    songSortManager.setSongs(filteredSongs);
+                    paginationManager.setSongs(filteredSongs);
+                }
+        );
+        songFilterManager.setup();
+    }
+
     private void setupFilters() {
-        genreFilter.getItems().setAll(Genre.values());
+        genreFilter.getItems().setAll("Tous");
+        for (Genre genre : Genre.values()) {
+            genreFilter.getItems().add(genre.toString());
+        }
+        genreFilter.setValue("Tous");
+
         decennieFilter.getItems().setAll(
                 "Toutes",
                 "1970s",
@@ -171,7 +207,6 @@ public class PrincipalController {
     private void loadSongs() {
         CsvReader csvReader = new CsvReader();
         List<Song> songs = csvReader.readSongs();
-        songSortManager.setSongs(songs);
-        paginationManager.setSongs(songs);
+        songFilterManager.setSongs(songs);
     }
 }
