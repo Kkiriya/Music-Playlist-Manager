@@ -3,9 +3,6 @@ package com.maisonneuve.music_playlist_manager.controller;
 import com.maisonneuve.music_playlist_manager.model.Genre;
 import com.maisonneuve.music_playlist_manager.model.Song;
 import com.maisonneuve.music_playlist_manager.util.CsvReader;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -13,13 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PrincipalController {
-    private List<Song> allSongs = new ArrayList<>();
-    private int currentPage = 1;
-    private int pageSize = 25;
+    private PaginationManager paginationManager;
+    private SongSortManager songSortManager;
 
     @FXML
     private ComboBox<Genre> genreFilter;
@@ -33,6 +28,8 @@ public class PrincipalController {
     private ComboBox<String> sortAlgorithmChoice;
     @FXML
     private ComboBox<String> pageSizeComboBox;
+    @FXML
+    private Button sortButton;
     @FXML
     private Button btnPrevious;
     @FXML
@@ -53,14 +50,83 @@ public class PrincipalController {
     private TableColumn<Song, Integer> durationColumn;
     @FXML
     private TableColumn<Song, Integer> listenCountColumn;
+    @FXML
+    private Label selectedSongTitleLabel;
+    @FXML
+    private Label selectedSongArtistLabel;
+    @FXML
+    private Label selectedSongAlbumLabel;
+    @FXML
+    private Label selectedSongGenreLabel;
+    @FXML
+    private Label selectedSongReleaseYearLabel;
+    @FXML
+    private Label selectedSongDurationLabel;
+    @FXML
+    private Label selectedSongListenCountLabel;
 
     @FXML
     public void initialize() {
-        setupSongTable();
-        setupPagination();
+        setupTableManager();
+        setupDetailManager();
+        setupPaginationManager();
+        setupSortManager();
+        setupFilters();
+        setupSortChoices();
+        setupPageSizeChoices();
+        loadSongs();
+    }
 
+    private void setupTableManager() {
+        SongTableManager songTableManager = new SongTableManager(
+                titleColumn,
+                artistColumn,
+                genreColumn,
+                releaseYearColumn,
+                durationColumn,
+                listenCountColumn
+        );
+        songTableManager.setupColumns();
+    }
+
+    private void setupDetailManager() {
+        SongDetailManager songDetailManager = new SongDetailManager(
+                tableSongList,
+                selectedSongTitleLabel,
+                selectedSongArtistLabel,
+                selectedSongAlbumLabel,
+                selectedSongGenreLabel,
+                selectedSongReleaseYearLabel,
+                selectedSongDurationLabel,
+                selectedSongListenCountLabel
+        );
+        songDetailManager.setupSelectionListener();
+    }
+
+    private void setupPaginationManager() {
+        paginationManager = new PaginationManager(
+                tableSongList,
+                btnPrevious,
+                btnNext,
+                lblPage,
+                pageSizeComboBox
+        );
+        paginationManager.setup();
+    }
+
+    private void setupSortManager() {
+        songSortManager = new SongSortManager(
+                sortCriterionChoice,
+                sortOrderChoice,
+                sortAlgorithmChoice,
+                sortButton,
+                sortedSongs -> paginationManager.setSongs(sortedSongs)
+        );
+        songSortManager.setup();
+    }
+
+    private void setupFilters() {
         genreFilter.getItems().setAll(Genre.values());
-
         decennieFilter.getItems().setAll(
                 "Toutes",
                 "1970s",
@@ -70,20 +136,21 @@ public class PrincipalController {
                 "2010s",
                 "2020s"
         );
-
         decennieFilter.setValue("Toutes");
+    }
 
+    private void setupSortChoices() {
         sortCriterionChoice.getItems().setAll(
                 "Titre",
                 "Artiste",
-                "Durée",
-                "Année",
-                "Écoutes",
+                "Duree",
+                "Annee",
+                "Ecoutes",
                 "Genre"
         );
         sortCriterionChoice.setValue("Titre");
 
-        sortOrderChoice.getItems().setAll("Croissant", "Décroissant");
+        sortOrderChoice.getItems().setAll("Croissant", "Decroissant");
         sortOrderChoice.setValue("Croissant");
 
         sortAlgorithmChoice.getItems().setAll(
@@ -94,92 +161,17 @@ public class PrincipalController {
                 "Quick sort"
         );
         sortAlgorithmChoice.setValue("Bubble sort");
-
-        pageSizeComboBox.getItems().setAll("10", "25", "50", "100");
-        pageSizeComboBox.setValue("25");
-
-        loadSongs();
     }
 
-    /**
-     * Links each table column to the matching Song getter.
-     * new SimpleStringProperty(...) wraps that String in a JavaFX property.
-     */
-    private void setupSongTable() {
-        titleColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getTitle()));
-        artistColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getArtist()));
-        genreColumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getGenre()));
-        releaseYearColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getReleaseDate()));
-        durationColumn.setCellValueFactory(cellData ->
-                new SimpleIntegerProperty(cellData.getValue().getDuration()).asObject());
-        listenCountColumn.setCellValueFactory(cellData ->
-                new SimpleIntegerProperty(cellData.getValue().getListenCount()).asObject());
+    private void setupPageSizeChoices() {
+        pageSizeComboBox.getItems().setAll("10", "25", "50", "100");
+        pageSizeComboBox.setValue("25");
     }
 
     private void loadSongs() {
         CsvReader csvReader = new CsvReader();
-        allSongs = csvReader.readSongs();
-        currentPage = 1;
-        updatePage();
-    }
-
-    /**
-     * Connects the pagination buttons and page size choice.
-     */
-    private void setupPagination() {
-        btnPrevious.setOnAction(event -> previousPage());
-        btnNext.setOnAction(event -> nextPage());
-
-        pageSizeComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) {
-                return;
-            }
-
-            pageSize = Integer.parseInt(newValue);
-            currentPage = 1;
-            updatePage();
-        });
-    }
-
-    private void previousPage() {
-        if (currentPage > 1) {
-            currentPage--;
-            updatePage();
-        }
-    }
-
-    private void nextPage() {
-        if (currentPage < getTotalPages()) {
-            currentPage++;
-            updatePage();
-        }
-    }
-
-    private void updatePage() {
-        int totalPages = getTotalPages();
-        int fromIndex = (currentPage - 1) * pageSize;
-        int toIndex = Math.min(fromIndex + pageSize, allSongs.size());
-
-        if (allSongs.isEmpty()) {
-            tableSongList.getItems().clear();
-        } else {
-            tableSongList.getItems().setAll(allSongs.subList(fromIndex, toIndex));
-        }
-
-        lblPage.setText("Page " + currentPage + " / " + totalPages);
-        btnPrevious.setDisable(currentPage <= 1);
-        btnNext.setDisable(currentPage >= totalPages);
-    }
-
-    private int getTotalPages() {
-        if (allSongs.isEmpty()) {
-            return 1;
-        }
-
-        return (int) Math.ceil((double) allSongs.size() / pageSize);
+        List<Song> songs = csvReader.readSongs();
+        songSortManager.setSongs(songs);
+        paginationManager.setSongs(songs);
     }
 }
