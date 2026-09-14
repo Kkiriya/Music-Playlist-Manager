@@ -1,19 +1,3 @@
-# <!--
-
-LABORATOIRE 2 - 420-930-MA - Ete 2026 - gr. 25604
-Template README a remplir et deposer sur Teams avant la deadline
-====================================================================
-
-Instructions :
-
-1. Copiez ce fichier dans votre depot GitHub sous le nom README.md
-2. Remplissez toutes les sections marquees [A COMPLETER]
-3. Supprimez tous les commentaires HTML (<!-- ... -->) avant la remise
-4. Deposez ce fichier (rempli) sur Teams, canal du groupe
-   avec le titre : "Lab2 - Sujet X - Nom1 Nom2 [Nom3]"
-   ====================================================================
-   -->
-
 # Mudic Catalog - Lab2
 
 **Cours** : 420-930-MA — Algorithmes et modèles de programmation
@@ -52,7 +36,7 @@ Instructions :
 
 ### ✅ Obligatoires (cocher ce qui est fait)
 
-- [ ] Architecture MVC avec packages séparés (model / service / algorithmes / controller / util)
+- [X] Architecture MVC avec packages séparés (model / service / algorithmes / controller / util)
 - [X] Chargement des données depuis fichier CSV (nombre de lignes : 420 chansons)
 - [X] Interface JavaFX principale avec liste/tableau
 - [X] Panneau détail affichant l'élément sélectionné
@@ -69,9 +53,7 @@ Instructions :
 
 ### 🎁 Bonus (cocher ce qui est fait)
 
-- [ ] [Bonus 1 : ex. Mode sombre/clair]
-- [ ] [Bonus 2 : ex. Statistiques]
-- [ ] [Bonus 3 : ...]
+- [X] Aucun
 
 ### ❌ Non implémenté (assumer honnêtement)
 
@@ -142,7 +124,7 @@ Java 17 avec JavaFX 21.
 
 ### Format des données
 
-CSV avec virgule comme separateur, lu avec OpenCSV en UTF-8. Le fichier contient 420 chansons.
+CSV avec virgule comme séparateur, lu avec OpenCSV en UTF-8. Le fichier contient 420 chansons.
 
 ### Algorithmes de tri implémentés
 
@@ -155,7 +137,6 @@ CSV avec virgule comme separateur, lu avec OpenCSV en UTF-8. Le fichier contient
 ### Bibliothèques externes utilisées
 
 - OpenCSV pour lire le fichier CSV
-- JUnit pour les tests
 
 ---
 
@@ -184,19 +165,13 @@ Le benchmark est accessible avec le bouton `Benchmark` dans la barre du haut.
 
 ## Captures d'écran (fortement recommandé)
 
-Aucune capture d'ecran ajoutee pour le moment.
-
-Exemple :
-
-```markdown
 ### Écran principal
 
-![Écran principal](screenshots/principal.png)
+![Écran principal](docs/screenshots/main-screen.png)
 
 ### Écran de benchmark
 
-![Benchmark](screenshots/benchmark.png)
-```
+![Benchmark](docs/screenshots/benchmark-screen.png)
 
 ---
 
@@ -209,23 +184,3 @@ Exemple :
 Voir l'onglet **Insights > Contributors** de GitHub pour voir la contribution de chacun.
 
 ---
-
-# <!--
-
-# CHECKLIST FINALE AVANT LA REMISE (a supprimer avant remise)
-
-[ ] Tous les [A COMPLETER] ont ete remplaces par de vrais contenus
-[ ] Tous les commentaires HTML <!-- ... --> ont ete supprimes
-[ ] Le lien GitHub est valide (teste dans un navigateur prive)
-[ ] Le depot est PUBLIC (pas Prive)
-[ ] Le README.md est bien present a la RACINE du depot
-[ ] Le projet compile avec "mvn clean compile" sans erreur
-[ ] Le projet lance avec "mvn javafx:run" sans erreur
-[ ] Les donnees (CSV) sont dans src/main/resources/data/
-[ ] Le .gitignore exclut target/, .idea/, out/
-[ ] Chaque membre de l'equipe a des commits a son nom
-[ ] Ce fichier README rempli a ete deposé sur Teams
-
-# DATE LIMITE : 11 septembre 2026, 23h59
-
--->
