@@ -211,8 +211,14 @@ public class PrincipalController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/maisonneuve/music_playlist_manager/views/lab.fxml"));
             Stage stage = new Stage();
+            Scene scene = new Scene(loader.load());
+            var stylesheet = getClass().getResource("/com/maisonneuve/music_playlist_manager/styles/theme.css");
+            if (stylesheet != null) {
+                scene.getStylesheets().add(stylesheet.toExternalForm());
+            }
+
             stage.setTitle("Benchmark");
-            stage.setScene(new Scene(loader.load()));
+            stage.setScene(scene);
             stage.show();
         } catch (IOException exception) {
             throw new IllegalStateException("Impossible d'ouvrir la fenetre de benchmark.", exception);
