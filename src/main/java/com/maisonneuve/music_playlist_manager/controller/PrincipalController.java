@@ -62,7 +62,7 @@ public class PrincipalController {
     @FXML
     private TableColumn<Song, String> releaseYearColumn;
     @FXML
-    private TableColumn<Song, Integer> durationColumn;
+    private TableColumn<Song, String> durationColumn;
     @FXML
     private TableColumn<Song, Integer> listenCountColumn;
     @FXML
@@ -93,6 +93,8 @@ public class PrincipalController {
     private Button nextTrackButton;
     @FXML
     private Button shuffleButton;
+    @FXML
+    private Slider playbackProgressSlider;
 
     @FXML
     public void initialize() {
@@ -184,6 +186,7 @@ public class PrincipalController {
                 playPauseButton,
                 nextTrackButton,
                 shuffleButton,
+                playbackProgressSlider,
                 () -> {
                     paginationManager.refresh();
                     songDetailManager.refreshSelectedSong();

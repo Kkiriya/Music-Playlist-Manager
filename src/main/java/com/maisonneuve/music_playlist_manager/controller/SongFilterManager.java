@@ -126,7 +126,8 @@ public class SongFilterManager {
     }
 
     private boolean matchesDuration(Song song) {
-        return song.getDuration() <= (int) maxDurationSlider.getValue();
+        int maxDurationInSeconds = (int) maxDurationSlider.getValue() * 60;
+        return song.getDuration() <= maxDurationInSeconds;
     }
 
     private boolean matchesListenCount(Song song) {

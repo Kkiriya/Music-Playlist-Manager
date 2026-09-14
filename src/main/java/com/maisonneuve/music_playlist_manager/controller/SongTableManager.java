@@ -2,6 +2,7 @@ package com.maisonneuve.music_playlist_manager.controller;
 
 import com.maisonneuve.music_playlist_manager.model.Genre;
 import com.maisonneuve.music_playlist_manager.model.Song;
+import com.maisonneuve.music_playlist_manager.util.DurationFormatter;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,7 +17,7 @@ public class SongTableManager {
     private final TableColumn<Song, String> artistColumn;
     private final TableColumn<Song, Genre> genreColumn;
     private final TableColumn<Song, String> releaseYearColumn;
-    private final TableColumn<Song, Integer> durationColumn;
+    private final TableColumn<Song, String> durationColumn;
     private final TableColumn<Song, Integer> listenCountColumn;
     private final TableColumn<Song, Void> playColumn;
     private final Consumer<Song> onPlaySong;
@@ -26,7 +27,7 @@ public class SongTableManager {
             TableColumn<Song, String> artistColumn,
             TableColumn<Song, Genre> genreColumn,
             TableColumn<Song, String> releaseYearColumn,
-            TableColumn<Song, Integer> durationColumn,
+            TableColumn<Song, String> durationColumn,
             TableColumn<Song, Integer> listenCountColumn,
             TableColumn<Song, Void> playColumn,
             Consumer<Song> onPlaySong
@@ -54,7 +55,7 @@ public class SongTableManager {
         releaseYearColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getReleaseDate()));
         durationColumn.setCellValueFactory(cellData ->
-                new SimpleIntegerProperty(cellData.getValue().getDuration()).asObject());
+                new SimpleStringProperty(DurationFormatter.format(cellData.getValue().getDuration())));
         listenCountColumn.setCellValueFactory(cellData ->
                 new SimpleIntegerProperty(cellData.getValue().getListenCount()).asObject());
         setupPlayButtonColumn();
