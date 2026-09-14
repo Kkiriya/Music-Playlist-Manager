@@ -106,3 +106,48 @@
 .slider .thumb {
     -fx-background-color: #1db954;
 }
+
+.check-box {
+    -fx-text-fill: #f5f5f5;
+}
+
+.check-box .box {
+    -fx-background-color: #242424;
+    -fx-border-color: #555555;
+    -fx-border-radius: 3px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #1db954;
+}
+
+.spinner {
+    -fx-background-color: #242424;
+}
+
+.spinner .text-field {
+    -fx-background-color: #242424;
+    -fx-text-fill: #ffffff;
+}
+
+.chart {
+    -fx-background-color: #181818;
+}
+
+.chart-plot-background {
+    -fx-background-color: #121212;
+}
+
+.chart-title,
+.axis-label {
+    -fx-text-fill: #f5f5f5;
+}
+
+.axis {
+    -fx-tick-label-fill: #cccccc;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: #333333;
+}
