@@ -18,6 +18,8 @@ public class PrincipalController {
     private PaginationManager paginationManager;
     private SongSortManager songSortManager;
     private SongFilterManager songFilterManager;
+    private PlayerManager playerManager;
+    private SongDetailManager songDetailManager;
 
     @FXML
     private TextField searchField;
@@ -60,9 +62,11 @@ public class PrincipalController {
     @FXML
     private TableColumn<Song, String> releaseYearColumn;
     @FXML
-    private TableColumn<Song, Integer> durationColumn;
+    private TableColumn<Song, String> durationColumn;
     @FXML
     private TableColumn<Song, Integer> listenCountColumn;
+    @FXML
+    private TableColumn<Song, Void> playColumn;
     @FXML
     private Label selectedSongTitleLabel;
     @FXML
@@ -77,13 +81,28 @@ public class PrincipalController {
     private Label selectedSongDurationLabel;
     @FXML
     private Label selectedSongListenCountLabel;
+    @FXML
+    private Label currentSongTitleLabel;
+    @FXML
+    private Label currentSongArtistLabel;
+    @FXML
+    private Button previousTrackButton;
+    @FXML
+    private Button playPauseButton;
+    @FXML
+    private Button nextTrackButton;
+    @FXML
+    private Button shuffleButton;
+    @FXML
+    private Slider playbackProgressSlider;
 
     @FXML
     public void initialize() {
-        setupTableManager();
         setupDetailManager();
         setupPaginationManager();
         setupSortManager();
+        setupPlayerManager();
+        setupTableManager();
         setupFilterManager();
         setupFilters();
         setupSortChoices();
@@ -98,13 +117,15 @@ public class PrincipalController {
                 genreColumn,
                 releaseYearColumn,
                 durationColumn,
-                listenCountColumn
+                listenCountColumn,
+                playColumn,
+                song -> playerManager.playSong(song)
         );
         songTableManager.setupColumns();
     }
 
     private void setupDetailManager() {
-        SongDetailManager songDetailManager = new SongDetailManager(
+        songDetailManager = new SongDetailManager(
                 tableSongList,
                 selectedSongTitleLabel,
                 selectedSongArtistLabel,
@@ -150,10 +171,28 @@ public class PrincipalController {
                 resetFiltersButton,
                 filteredSongs -> {
                     songSortManager.setSongs(filteredSongs);
+                    playerManager.setSongs(filteredSongs);
                     paginationManager.setSongs(filteredSongs);
                 }
         );
         songFilterManager.setup();
+    }
+
+    private void setupPlayerManager() {
+        playerManager = new PlayerManager(
+                currentSongTitleLabel,
+                currentSongArtistLabel,
+                previousTrackButton,
+                playPauseButton,
+                nextTrackButton,
+                shuffleButton,
+                playbackProgressSlider,
+                () -> {
+                    paginationManager.refresh();
+                    songDetailManager.refreshSelectedSong();
+                }
+        );
+        playerManager.setup();
     }
 
     private void setupFilters() {

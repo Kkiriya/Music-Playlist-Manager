@@ -1,6 +1,7 @@
 package com.maisonneuve.music_playlist_manager.controller;
 
 import com.maisonneuve.music_playlist_manager.model.Song;
+import com.maisonneuve.music_playlist_manager.util.DurationFormatter;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 
@@ -43,6 +44,10 @@ public class SongDetailManager {
         );
     }
 
+    public void refreshSelectedSong() {
+        showSongDetails(tableSongList.getSelectionModel().getSelectedItem());
+    }
+
     private void showSongDetails(Song song) {
         if (song == null) {
             selectedSongTitleLabel.setText("Aucune chanson");
@@ -60,13 +65,7 @@ public class SongDetailManager {
         selectedSongAlbumLabel.setText("Album: " + song.getAlbum());
         selectedSongGenreLabel.setText("Genre: " + song.getGenre());
         selectedSongReleaseYearLabel.setText("Annee: " + song.getReleaseDate());
-        selectedSongDurationLabel.setText("Duree: " + formatDuration(song.getDuration()));
+        selectedSongDurationLabel.setText("Duree: " + DurationFormatter.format(song.getDuration()));
         selectedSongListenCountLabel.setText("Ecoutes: " + song.getListenCount());
-    }
-
-    private String formatDuration(int totalSeconds) {
-        int minutes = totalSeconds / 60;
-        int seconds = totalSeconds % 60;
-        return String.format("%d:%02d", minutes, seconds);
     }
 }

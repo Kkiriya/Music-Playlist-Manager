@@ -61,16 +61,16 @@
                                 <VBox spacing="4.0">
                                     <children>
                                         <Label text="Durée max"/>
-                                        <Slider fx:id="maxDurationSlider" blockIncrement="30.0" majorTickUnit="60.0"
-                                                max="600.0" prefWidth="220.0" showTickLabels="true" showTickMarks="true"
-                                                value="600.0"/>
+                                        <Slider fx:id="maxDurationSlider" blockIncrement="1.0" majorTickUnit="1.0"
+                                                max="10.0" prefWidth="220.0" showTickLabels="true" showTickMarks="true"
+                                                value="10.0"/>
                                     </children>
                                 </VBox>
                                 <VBox spacing="4.0">
                                     <children>
                                         <Label text="Écoutes min"/>
-                                        <Slider fx:id="minListenCountSlider" blockIncrement="100.0"
-                                                majorTickUnit="1000.0" max="10000.0" prefWidth="220.0"
+                                        <Slider fx:id="minListenCountSlider" blockIncrement="10.0"
+                                                majorTickUnit="25.0" max="100.0" prefWidth="220.0"
                                                 showTickLabels="true" showTickMarks="true"/>
                                     </children>
                                 </VBox>
@@ -88,6 +88,7 @@
                         <TableColumn fx:id="releaseYearColumn" prefWidth="70.0" text="Année"/>
                         <TableColumn fx:id="durationColumn" prefWidth="70.0" text="Durée"/>
                         <TableColumn fx:id="listenCountColumn" prefWidth="95.0" text="Écoutes"/>
+                        <TableColumn fx:id="playColumn" prefWidth="70.0" text="Lire"/>
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -188,6 +189,7 @@
                         <Label fx:id="currentSongTitleLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;"
                                text="Aucune chanson en cours"/>
                         <Label fx:id="currentSongArtistLabel" text="Artiste: -"/>
+                        <Slider fx:id="playbackProgressSlider" disable="true" prefWidth="180.0"/>
                     </children>
                 </VBox>
                 <Region HBox.hgrow="ALWAYS"/>
@@ -198,7 +200,7 @@
                 </Button>
                 <Button fx:id="playPauseButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" text="▶️">
                     <tooltip>
-                        <Tooltip text="Lecture / pause"/>
+                        <Tooltip text="Lecture"/>
                     </tooltip>
                 </Button>
                 <Button fx:id="nextTrackButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" text="⏩">
@@ -211,7 +213,6 @@
                         <Tooltip text="Lecture aléatoire"/>
                     </tooltip>
                 </Button>
-                <Slider fx:id="playbackProgressSlider" prefWidth="160.0"/>
             </children>
             <padding>
                 <Insets bottom="12.0" left="16.0" right="16.0" top="12.0"/>
