@@ -4,6 +4,8 @@ import com.maisonneuve.music_playlist_manager.model.Genre;
 import com.maisonneuve.music_playlist_manager.model.Song;
 import com.maisonneuve.music_playlist_manager.util.CsvReader;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -11,6 +13,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 import java.util.List;
 
@@ -43,6 +48,8 @@ public class PrincipalController {
     private Slider minListenCountSlider;
     @FXML
     private Button resetFiltersButton;
+    @FXML
+    private Button benchmarkButton;
     @FXML
     private Button sortButton;
     @FXML
@@ -102,6 +109,7 @@ public class PrincipalController {
         setupPaginationManager();
         setupSortManager();
         setupPlayerManager();
+        setupBenchmarkButton();
         setupTableManager();
         setupFilterManager();
         setupFilters();
@@ -193,6 +201,22 @@ public class PrincipalController {
                 }
         );
         playerManager.setup();
+    }
+
+    private void setupBenchmarkButton() {
+        benchmarkButton.setOnAction(event -> openBenchmarkWindow());
+    }
+
+    private void openBenchmarkWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/maisonneuve/music_playlist_manager/views/lab.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Benchmark");
+            stage.setScene(new Scene(loader.load()));
+            stage.show();
+        } catch (IOException exception) {
+            throw new IllegalStateException("Impossible d'ouvrir la fenetre de benchmark.", exception);
+        }
     }
 
     private void setupFilters() {
