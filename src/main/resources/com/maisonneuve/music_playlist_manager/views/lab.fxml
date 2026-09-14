@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.maisonneuve.music_playlist_manager.controller.LabController">
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Big O Lab" />
+                <Region prefHeight="72.0" prefWidth="552.0" />
+                <Label text="Répetitions:" />
+                <Spinner fx:id="spinnerRepetition" />
+                <Button fx:id="btnLancer" mnemonicParsing="false" text="Lancer les mesures" />
+                <Button fx:id="btnReset" mnemonicParsing="false" text="Reset" />
+            </children>
+            <padding>
+                <Insets bottom="14.0" left="24.0" right="24.0" top="14.0" />
+            </padding>
+        </HBox>
+    </top>
+    <left>
+        <VBox prefWidth="240.0" spacing="12.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="ALGORITHMES" />
+                <CheckBox fx:id="chkLineaire" mnemonicParsing="false" text="Recherche Linéaire O(n)" />
+                <CheckBox fx:id="chkDico" mnemonicParsing="false" text="Recherche Dichotomoque O(log n)" />
+                <CheckBox fx:id="chkDouble" mnemonicParsing="false" text="Double Boucle O(n²)" />
+                <CheckBox fx:id="chkHash" mnemonicParsing="false" text="HashMap.get(). O(1)" />
+                <Label text="ALGO DE TRIE" />
+                <CheckBox fx:id="chkTriBulle" mnemonicParsing="false" text="Trie Bulle - O(n²)" />
+                <CheckBox fx:id="chkTriSelection" mnemonicParsing="false" text="Trie Sélection - O(n²)" />
+                <CheckBox fx:id="chkTriInsertion" mnemonicParsing="false" text="Tri insertion O(n²)" />
+                <CheckBox fx:id="chkTriMerge" mnemonicParsing="false" text="Trie Merge O (n log n)" />
+                <CheckBox fx:id="chkTriRapide" mnemonicParsing="false" text="Trie Rapide O (n log n)" />
+                <Region prefHeight="200.0" prefWidth="194.0" />
+                <Label text="Tailles Testées" />
+                <Label text="100,500,1k,5k,10k,50k100k" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </left>
+    <center>
+        <LineChart fx:id="lineChart" BorderPane.alignment="CENTER">
+            <xAxis>
+                <NumberAxis fx:id="axeX" label="Taille (n)" side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="axeY" label="temps (ns)" side="LEFT" />
+            </yAxis>
+        </LineChart>
+    </center>
+</BorderPane>
