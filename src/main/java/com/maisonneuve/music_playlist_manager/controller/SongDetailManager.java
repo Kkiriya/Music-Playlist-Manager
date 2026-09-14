@@ -43,6 +43,10 @@ public class SongDetailManager {
         );
     }
 
+    public void refreshSelectedSong() {
+        showSongDetails(tableSongList.getSelectionModel().getSelectedItem());
+    }
+
     private void showSongDetails(Song song) {
         if (song == null) {
             selectedSongTitleLabel.setText("Aucune chanson");

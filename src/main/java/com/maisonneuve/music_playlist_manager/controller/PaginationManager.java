@@ -57,6 +57,11 @@ public class PaginationManager {
         updatePage();
     }
 
+    public void refresh() {
+        updatePage();
+        tableSongList.refresh();
+    }
+
     private void previousPage() {
         if (currentPage > 1) {
             currentPage--;
