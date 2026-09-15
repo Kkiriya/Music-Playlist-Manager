@@ -1,0 +1,37 @@
+flowchart TD
+%% UI connection
+    jFx --> Catalog
+    jFx --> Services
+
+%% Catalog connection
+    CS --> CSR
+    CS --> SSC
+    CSR --> S
+
+    Services --> DAO --> PostgreSQL
+
+    jFx[JavaFx UI]
+
+    subgraph Catalog
+        CS[CatalogService]
+        CSR[CsvSongRepository]
+        S[songs.csv]
+        SSC[SongSearchCriteria]
+    end
+
+    subgraph Services
+        SS[SongService]
+        PS[PlaylistService]
+
+    end
+
+    subgraph DAO
+        SDAO[SongDAO]
+        PDAO[PlaylistDAO]
+    end
+
+    subgraph PostgreSQL
+        SONG
+        PLAYLIST
+        PLAYLIST_SONG
+    end

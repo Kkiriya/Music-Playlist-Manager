@@ -1,0 +1,34 @@
+erDiagram
+    PLAYLIST ||--o{ PLAYLIST_SONG : contains
+    SONG ||--o{ PLAYLIST_SONG: references
+
+    SONG {
+        VARCHAR song_id PK
+        VARCHAR title
+        VARCHAR artist
+        VARCHAR album
+        INTEGER release_year
+        VARCHAR genre
+        INTEGER duration_seconds
+        INTEGER listen_count
+
+        DATE created_at
+        DATE updated_at
+    }
+
+    PLAYLIST {
+        VARCHAR playlist_id PK
+        VARCHAR name
+
+        DATE created_at
+        DATE updated_at
+    }
+
+    PLAYLIST_SONG {
+        VARCHAR playlist_id PK, FK
+        VARCHAR song_id PK, FK
+        INTEGER position
+
+        DATE created_at
+        DATE updated_at
+    }
