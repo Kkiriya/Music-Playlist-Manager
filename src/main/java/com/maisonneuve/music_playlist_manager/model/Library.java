@@ -1,10 +1,12 @@
 package com.maisonneuve.music_playlist_manager.model;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Library {
-    private ArrayList<Song> songs;
-    private ArrayList<Playlist> playlists;
+    private final String libraryId;
+    private ArrayList<String> songIds;
+    private ArrayList<String> playlistIds;
 
 //    /**
 //     * If user already has some songs and playlist load them up otherwise
@@ -29,51 +31,29 @@ public class Library {
      * from the CSV or whatever date source we eventually have
      */
     public Library(){
-        this.songs = new ArrayList<Song>();
-        this.playlists = new ArrayList<Playlist>();
+        this.libraryId = UUID.randomUUID().toString(); // for when users are eventually implemented
+        this.songIds = new ArrayList<String>();
+        this.playlistIds = new ArrayList<String>();
     }
 
-    public ArrayList<Playlist> getPlaylists() {
-        return playlists;
+    public ArrayList<String> getSongIds() {
+        return songIds;
     }
 
-    /**
-     * Adds a playlist to the Library
-     * Doesnt allow duplicates
-     * @param playlist
-     */
-    public void addPlaylist(Playlist playlist) {
-        if (this.playlists.contains(playlist)) return;
-        this.playlists.add(playlist);
+    public void setSongIds(ArrayList<String> songIds) {
+        this.songIds = songIds;
     }
 
-    /**
-     * Removes a playlist from the Library
-     * @param playlist
-     */
-    public void removePlaylist(Playlist playlist) {
-        this.playlists.remove(playlist);
+    public ArrayList<String> getPlaylistIds() {
+        return playlistIds;
     }
 
-    public ArrayList<Song> getSongs() {
-        return songs;
+    public void setPlaylistIds(ArrayList<String> playlistIds) {
+        this.playlistIds = playlistIds;
     }
 
-    /**
-     * Adds a song to the Library
-     * Doesnt allow duplicates
-     * @param song
-     */
-    public void addSong(Song song) {
-        if (this.songs.contains(song)) return;
-        this.songs.add(song);
-    }
-
-    /**
-     * remo
-     * @param song
-     */
-    public void removeSong(Song song) {
-        this.songs.remove(song);
+    @Override
+    public String toString() {
+        return libraryId + "(nbr of songs: " + songIds.size() + ", nbr of playlists: " + playlistIds.size() + ")";
     }
 }

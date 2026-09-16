@@ -2,9 +2,11 @@ package com.maisonneuve.music_playlist_manager.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Playlist {
     private final String playlistId;
+    private final String libraryId;
     private String name;
     private ArrayList<String> songIds;
     private int runtime;
@@ -14,11 +16,13 @@ public class Playlist {
 
     public Playlist(
             String playlistId,
+            String libraryId,
             String name,
             ArrayList<String> songIds,
             int runtime
     ) {
-        this.playlistId = playlistId;
+        this.playlistId = UUID.randomUUID().toString();
+        this.libraryId = libraryId;
         this.name = name;
         this.songIds = songIds;
         this.runtime = runtime;
@@ -29,6 +33,10 @@ public class Playlist {
 
     public String getPlaylistId() {
         return playlistId;
+    }
+
+    public String getLibraryId() {
+        return libraryId;
     }
 
     public String getName() {
@@ -110,5 +118,10 @@ public class Playlist {
      */
     public void clear() {
         this.songIds.clear();
+    }
+
+    @Override
+    public String toString() {
+        return playlistId + "-" + libraryId + " (" + name + ", nbr of songs: " + songIds.size() + ", runtime: " + runtime + ")";
     }
 }
