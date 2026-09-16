@@ -117,14 +117,12 @@ sql_lines.append("  artist,")
 sql_lines.append("  album,")
 sql_lines.append("  release_year,")
 sql_lines.append("  genre,")
-sql_lines.append("  duration_seconds,")
-sql_lines.append("  listen_count")
+sql_lines.append("  duration_seconds")
 sql_lines.append(") VALUES")
 
-values = []
-
-for _, row in df.iterrows():
-    value = (
+for i, (_, row) in enumerate(df.iterrows()):
+    separator = "," if i < len(df) - 1 else ";"
+    sql_lines.append(
         f"  ("
         f"{sql_escape(row['song_id'])}, "
         f"{sql_escape(row['title'])}, "
@@ -132,17 +130,9 @@ for _, row in df.iterrows():
         f"{sql_escape(row["album"])}, "
         f"{int(row["release_year"])}, "
         f"{sql_escape(row['genre'])}, "
-        f"{int(row['duration_seconds'])}, "
-        f")"
+        f"{int(row['duration_seconds'])} "
+        f"){separator}"
     )
-    values.append(value)
-
-    # add comma between rows and semicolon after final row
-    for i, value in enumerate(values):
-        if i < len(values) - 1:
-            sql_lines.append(value + ",")
-        else:
-            sql_lines.append(value + ";")
 
 # Write SQL file
 output_path = "../src/main/resources/com/maisonneuve/music_playlist_manager/data.sql"

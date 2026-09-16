@@ -99,5 +99,5 @@ CREATE TABLE playlist_song (
     -- ensures a postion can only be occupied once in a playlist
     UNIQUE (playlist_id, position),
 
-    CHECK (postition >= 0)
+    CHECK (position >= 0)
 )
