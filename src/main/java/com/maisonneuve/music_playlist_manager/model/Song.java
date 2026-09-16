@@ -4,16 +4,15 @@ import java.time.LocalDate;
 
 public class Song {
     private final String songId;
-    private String title;
-    private String artist;
-    private String album;
-    private String releaseDate;
-    private Genre genre;
-    private int duration;
+    private final String title;
+    private final String artist;
+    private final String album;
+    private final String releaseDate;
+    private final Genre genre;
+    private final int duration;
     private int listenCount;
 
     private final LocalDate createdAt;
-    private LocalDate updatedAt;
 
     public Song(
             String songId,
@@ -34,7 +33,6 @@ public class Song {
         this.duration = duration;
         this.listenCount = listenCount;
         this.createdAt = LocalDate.now();
-        this.updatedAt = createdAt;
     }
 
     public String getSongId() {
