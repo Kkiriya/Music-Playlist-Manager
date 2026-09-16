@@ -10,6 +10,8 @@ import java.util.Properties;
 public class Connexion {
     private static final Properties properties = new Properties();
 
+    // static initialization block
+    // automatically runs when the class is first loaded by the JVM
     static {
         try (InputStream input = Connexion.class
                 .getClassLoader()
