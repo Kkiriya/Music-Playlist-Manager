@@ -6,7 +6,11 @@ public enum Genre {
     HIP_HOP("Hip Hop"),
     JAZZ("Jazz"),
     CLASSICAL("Classique"),
-    ELECTRONIC("Electronique");
+    ELECTRONIC("Electronic"),
+    METAL("Metal"),
+    COUNTRY("Country"),
+    RNB("RnB"),
+    REGGAE("Reggae");
 
     private final String displayName;
 
