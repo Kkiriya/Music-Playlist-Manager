@@ -7,7 +7,7 @@ public class Song {
     private final String title;
     private final String artist;
     private final String album;
-    private final String releaseDate;
+    private final int releaseDate;
     private final Genre genre;
     private final int duration;
     private int listenCount;
@@ -19,7 +19,7 @@ public class Song {
             String title,
             String artist,
             String album,
-            String releaseDate,
+            int releaseDate,
             Genre genre,
             int duration,
             int listenCount
@@ -51,7 +51,7 @@ public class Song {
         return album;
     }
 
-    public String getReleaseDate() {
+    public int getReleaseDate() {
         return releaseDate;
     }
 
