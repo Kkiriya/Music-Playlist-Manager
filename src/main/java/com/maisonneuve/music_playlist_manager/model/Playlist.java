@@ -15,17 +15,11 @@ public class Playlist {
     private LocalDate updatedAt;
 
     public Playlist(
-            String playlistId,
             String libraryId,
-            String name,
-            ArrayList<String> songIds,
-            int runtime
+            String name
     ) {
         this.playlistId = UUID.randomUUID().toString();
         this.libraryId = libraryId;
-        this.name = name;
-        this.songIds = songIds;
-        this.runtime = runtime;
 
         this.createdAt = LocalDate.now();
         this.updatedAt = createdAt;

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongDAO {
+
     /**
      * Adds a new song to the database from the song object given
      * @param s
@@ -51,6 +52,8 @@ public class SongDAO {
                 Connection co = Connexion.open();
                 PreparedStatement ps = co.prepareStatement(sql)) {
             ps.setString(1, song_id);
+
+            ps.executeUpdate();
         }
     }
 
@@ -65,6 +68,7 @@ public class SongDAO {
                 Connection co = Connexion.open();
                 PreparedStatement ps = co.prepareStatement(sql)) {
             ps.setString(1, songId);
+            ps.executeUpdate();
         }
     }
 
