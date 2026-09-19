@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class Playlist_SongDAO {
+public class PlaylistSongDAO {
 
     /**
      * creates a new entry for create playlist song
