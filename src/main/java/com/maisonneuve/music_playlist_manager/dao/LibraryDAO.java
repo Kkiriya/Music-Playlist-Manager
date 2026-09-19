@@ -30,22 +30,11 @@ public class LibraryDAO {
     }
 
     /**
-     * Updates the library with given object
-     * @param l
+     * No updates can realistically be done on library
      * @throws SQLException
      */
-    public void updateLibrary(Library l) throws SQLException {
-        String sql = "UPDATE library "
-                + "SET library_id=? "
-                + "WHERE library_id=?";
-
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql)) {
-            ps.setString(1, l.getLibraryId());
-
-            ps.executeUpdate();
-        }
+    public void updateLibrary() throws SQLException {
+        return;
     }
 
     public void deleteLibrary(String libraryId) throws SQLException {

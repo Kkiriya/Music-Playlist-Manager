@@ -45,20 +45,20 @@ public class LibraryPlaylistDAO {
      * @param lp
      * @throws SQLException
      */
-    public void deleteLibraryPlalyist(LibraryPlaylist lp) throws SQLException {
+    public void deleteLibraryPlalyist(String libraryId, String playlistId) throws SQLException {
         String sql = "DELETE FROM library_playlist WHERE library_id=? AND playlist_id=?";
 
         try (
                 Connection co = Connexion.open();
                 PreparedStatement ps = co.prepareStatement(sql)) {
-            ps.setString(1, lp.getLibraryId());
-            ps.setString(2, lp.getPlaylistId());
+            ps.setString(1, libraryId);
+            ps.setString(2, playlistId);
 
             ps.executeUpdate();
         }
     }
 
-    public LibraryPlaylist getLibraryPlaylist(String libraryId, String songId) throws SQLException {
+    public LibraryPlaylist getLibraryPlaylist(String libraryId, String playlistId) throws SQLException {
         String sql = "SELECT * FROM library_playlist "
                 + "WHERE library_id=? AND playlist_id=?";
 
@@ -66,7 +66,7 @@ public class LibraryPlaylistDAO {
                 Connection co = Connexion.open();
                 PreparedStatement ps = co.prepareStatement(sql)) {
             ps.setString(1, libraryId);
-            ps.setString(2, songId);
+            ps.setString(2, playlistId);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {

@@ -46,7 +46,7 @@ public class SongDAO {
      */
     public void raiseSongListenCount(String song_id) throws SQLException {
         String sql = "UPDATE song "
-                + "SET listen_count= listen_count +  1 "
+                + "SET listen_count=listen_count+1, update_at=CURRENT_TIMESTAMP "
                 + "WHERE song_id=?";
         try (
                 Connection co = Connexion.open();

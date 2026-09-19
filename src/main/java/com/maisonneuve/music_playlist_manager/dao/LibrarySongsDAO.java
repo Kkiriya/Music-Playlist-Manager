@@ -40,14 +40,14 @@ public class LibrarySongsDAO {
         return;
     }
 
-    public void deletePlaylist(LibrarySongs ls) throws SQLException {
+    public void deletePlaylist(String libraryId, String songId) throws SQLException {
         String  sql = "DELETE FROM library_songs WHERE library_id=? AND playlist_id=?";
 
         try (
                 Connection co = Connexion.open();
                 PreparedStatement ps = co.prepareStatement(sql)) {
-            ps.setString(1, ls.getLibraryId());
-            ps.setString(2, ls.getSongId());
+            ps.setString(1, libraryId);
+            ps.setString(2, songId);
 
             ps.executeUpdate();
         }

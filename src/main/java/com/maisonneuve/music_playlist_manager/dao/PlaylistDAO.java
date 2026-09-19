@@ -39,7 +39,7 @@ public class PlaylistDAO {
      */
     public void updatePlaylist(Playlist p) throws SQLException {
         String sql = "UPDATE playlist "
-                + "SET name=?, updated_at=CURRRENT_TIMESTAMP "
+                + "SET name=?, updated_at=CURRENT_TIMESTAMP "
                 + "WHERE playlist_id=?";
         try (
                 Connection co = Connexion.open();
