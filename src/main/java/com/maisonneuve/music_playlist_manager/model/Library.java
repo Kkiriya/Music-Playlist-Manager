@@ -36,6 +36,16 @@ public class Library {
         this.playlistIds = new ArrayList<String>();
     }
 
+    public Library(String libraryId) {
+        this.libraryId = libraryId;
+        this.songIds = new ArrayList<String>();
+        this.playlistIds = new ArrayList<String>();
+    }
+
+    public String getLibraryId() {
+        return libraryId;
+    }
+
     public ArrayList<String> getSongIds() {
         return songIds;
     }
