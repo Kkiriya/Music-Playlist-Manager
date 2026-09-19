@@ -1,18 +1,28 @@
 package com.maisonneuve.music_playlist_manager.model;
 
+import java.time.LocalDate;
+
 public class Song {
-    private String songId;
-    private String title;
-    private String artist;
-    private String album;
-    private String releaseDate;
-    private Genre genre;
-    private int duration;
+    private final String songId;
+    private final String title;
+    private final String artist;
+    private final String album;
+    private final int releaseDate;
+    private final Genre genre;
+    private final int duration;
     private int listenCount;
 
+    private final LocalDate createdAt;
+
     public Song(
-            String songId, String title, String artist, String album,
-            String releaseDate, Genre genre, int duration, int listenCount
+            String songId,
+            String title,
+            String artist,
+            String album,
+            int releaseDate,
+            Genre genre,
+            int duration,
+            int listenCount
     ) {
         this.songId = songId;
         this.title = title;
@@ -22,6 +32,7 @@ public class Song {
         this.genre = genre;
         this.duration = duration;
         this.listenCount = listenCount;
+        this.createdAt = LocalDate.now();
     }
 
     public String getSongId() {
@@ -40,7 +51,7 @@ public class Song {
         return album;
     }
 
-    public String getReleaseDate() {
+    public int getReleaseDate() {
         return releaseDate;
     }
 
