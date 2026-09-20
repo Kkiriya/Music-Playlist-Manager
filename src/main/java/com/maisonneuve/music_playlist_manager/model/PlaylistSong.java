@@ -1,22 +1,18 @@
 package com.maisonneuve.music_playlist_manager.model;
 
+import com.maisonneuve.music_playlist_manager.dao.PlaylistSongDAO;
+
 import java.time.LocalDate;
 
 public class PlaylistSong {
-    private final String playlistId;
-    private final String songId;
+    private String playlistId;
+    private String songId;
     private int position;
-    private final LocalDate createdAt;
+
+    private LocalDate createdAt;
     private LocalDate updatedAt;
 
-    public PlaylistSong(
-            String playlistId,
-            String songId,
-            int position
-    ) {
-        this.playlistId = playlistId;
-        this.songId = songId;
-        this.position = position;
+    public PlaylistSong() {
         this.createdAt = LocalDate.now();
         this.updatedAt = createdAt;
     }
@@ -25,8 +21,16 @@ public class PlaylistSong {
         return playlistId;
     }
 
+    public void setPlaylistId(String playlistId) {
+        this.playlistId = playlistId;
+    }
+
     public String getSongId() {
         return songId;
+    }
+
+    public void setSongId(String songId) {
+        this.songId = songId;
     }
 
     public int getPosition() {
@@ -39,6 +43,10 @@ public class PlaylistSong {
 
     public LocalDate getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
     public LocalDate getUpdatedAt() {

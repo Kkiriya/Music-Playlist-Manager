@@ -75,7 +75,7 @@ public class SongSortManager {
         return switch (selectedCriterion) {
             case "Artiste" -> Comparator.comparing(Song::getArtist, String.CASE_INSENSITIVE_ORDER);
             case "Duree" -> Comparator.comparingInt(Song::getDuration);
-            case "Annee" -> Comparator.comparing(Song::getReleaseDate, String.CASE_INSENSITIVE_ORDER);
+            case "Annee" -> Comparator.comparing(Song::getReleaseYear, String.CASE_INSENSITIVE_ORDER);
             case "Ecoutes" -> Comparator.comparingInt(Song::getListenCount);
             case "Genre" -> Comparator.comparing(song -> song.getGenre().toString(), String.CASE_INSENSITIVE_ORDER);
             default -> Comparator.comparing(Song::getTitle, String.CASE_INSENSITIVE_ORDER);

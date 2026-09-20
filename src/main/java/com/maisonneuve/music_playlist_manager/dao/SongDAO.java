@@ -11,82 +11,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This specific table serves as the priamry datasource for all the songs available
+ * for that reason it does not have the Create, Update and Delete operation of the CRUD
+ */
 public class SongDAO {
-
     /**
-     * Adds a new song to the database from the song object given
-     * @param s
-     * @throws SQLException
-     */
-    public void createSong(Song s) throws SQLException {
-        String sql =
-                "INSERT INTO song "
-                + "(song_id, title, artist, album, release_year, genre, duration_seconds) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql)) {
-            ps.setString(1, s.getSongId());
-            ps.setString(2, s.getTitle());
-            ps.setString(3, s.getArtist());
-            ps.setString(4, s.getAlbum());
-            ps.setInt(5,s.getReleaseDate());
-            ps.setString(6, s.getGenre().toString());
-            ps.setInt(7, s.getDuration());
-
-            ps.executeUpdate();
-        }
-    }
-
-    /**
-     * Raises the listen count of a song by 1
-     * @param song_id
-     * @throws SQLException
-     */
-    public void raiseSongListenCount(String song_id) throws SQLException {
-        String sql = "UPDATE song "
-                + "SET listen_count=listen_count+1, update_at=CURRENT_TIMESTAMP "
-                + "WHERE song_id=?";
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql)) {
-            ps.setString(1, song_id);
-
-            ps.executeUpdate();
-        }
-    }
-
-    /**
-     * Deletes a song from the db
+     * Returns the song with the corresponding id
      * @param songId
-     * @throws SQLException
      */
-    public void deleteSong(String songId) throws SQLException {
-        String sql = "DELETE FROM song WHERE song_id=?";
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql)) {
-            ps.setString(1, songId);
-            ps.executeUpdate();
-        }
-    }
-
-    /**
-     * Returns a song from the db as Song object
-     * @param songId
-     * @return
-     * @throws SQLException
-     */
-    public Song getSong(String songId) throws SQLException {
+    public Song getSongById(String songId) throws SQLException {
         String sql =
                 "SELECT * FROM song "
-                + "WHERE song_id = ?";
-
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql)) {
+                + "WHERE song_id=?";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
             ps.setString(1, songId);
+
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return mapper(rs);
@@ -97,47 +38,85 @@ public class SongDAO {
     }
 
     /**
-     * Returns a list of all songs available in the db as a list of Song objects
+     * Returns the song with the corresponding title
+     * For now doesnt support cas insensitive and or progressive search
+     * @param title
+     * @return
+     * @throws SQLException
+     */
+    public Song getSongByTitle(String title) throws SQLException {
+        String sql =
+                "SELECT * FROM song "
+                + "WHERE title=?";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
+            ps.setString(1, title);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapper(rs);
+                }
+                return null;
+            }
+        }
+    }
+
+    /**
+     * Returns a list containing all songs available in the catalogue
      * @return
      * @throws SQLException
      */
     public List<Song> getAllSongs() throws SQLException {
-        String sql = "SELECT * FROM song ";
-
         List<Song> songs = new ArrayList<>();
 
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                songs.add(mapper(rs));
+        String sql =
+                "SELECT * FROM song ";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    songs.add(mapper(rs));
+                }
+                return songs;
             }
         }
-        return songs;
-    }
-
-    public void remove(Song s) throws SQLException {
-
     }
 
     /**
+     * Raise the listen count of the given song by 1
+     * @param songId
+     * @throws SQLException
+     */
+    public void raiseListenCount(String songId) throws SQLException {
+        String sql =
+                "UPDATE song "
+                + "SET listen_count=listen_count+1, updated_at=CURRENT_TIMESTAMP "
+                + "WHERE song_id=?";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
+            ps.setString(1, songId);
+            ps.executeUpdate();
+        }
+    }
+
+     /**
      * Transform a result query of SELECT * FROM SONG into appropriate Song object
      * @param rs
      * @return
      * @throws SQLException
      */
     private Song mapper(ResultSet rs) throws SQLException {
-        return new Song(
-                rs.getString("song_id"),
-                rs.getString("title"),
-                rs.getString("artist"),
-                rs.getString("album"),
-                rs.getInt("release_year"),
-                Genre.valueOf(rs.getString("genre")), // converts the stored string back into an enum
-                rs.getInt("duration_seconds"),
-                rs.getInt("listen_count")
-        );
+        Song s = new Song();
+        s.setSongId(rs.getString("song_id"));
+        s.setTitle(rs.getString("title"));
+        s.setArtist(rs.getString("artist"));
+        s.setAlbum(rs.getString("album"));
+        s.setReleaseYear(rs.getInt("release_year"));
+        s.setGenre(Genre.valueOf(rs.getString("genre"))); // converts the stored string back into an enum
+        s.setDurationSeconds(rs.getInt("duration_seconds"));
+        s.setListenCount(rs.getInt("listen_count"));
+        s.setCreatedAt(rs.getDate("created_at").toLocalDate());
+        s.setUpdatedAt(rs.getDate("updated_at").toLocalDate());
+        return s;
     }
-
 }
