@@ -15,6 +15,7 @@ public class Playlist {
 
     public Playlist() {
         this.playlistId = UUID.randomUUID().toString();
+        this.songIds = new ArrayList<>();
 
         this.createdAt = LocalDate.now();
         this.updatedAt = createdAt;
@@ -39,7 +40,7 @@ public class Playlist {
      */
     public int getSongPositition(String songId) {
         for (int i = 0; i < songIds.size(); i++) {
-            if (songIds.get(i) == songId) return i;
+            if (songIds.get(i).equals(songId)) return i;
         }
         return -1;
     }
@@ -65,7 +66,7 @@ public class Playlist {
     }
 
     public void setSongIds(ArrayList<String> songIds) {
-        this.songIds = songIds;
+        this.songIds = songIds == null ? new ArrayList<>() : songIds;
     }
 
     public void setRuntime(int runtime) {
@@ -82,6 +83,6 @@ public class Playlist {
 
     @Override
     public String toString() {
-        return playlistId + "-" + songIds.size();
+        return name == null ? playlistId : name;
     }
 }
