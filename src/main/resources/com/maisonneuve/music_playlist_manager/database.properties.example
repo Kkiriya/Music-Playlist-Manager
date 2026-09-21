@@ -1,3 +1,3 @@
-DB_URL=jbdc:postgresql://....
-DB_USER=db-user
-DB_PASSWORD=passwd
+DB_URL=jdbc:postgresql://localhost:5432/music_playlist_manager
+DB_USER=un_exemple
+DB_PASSWORD=Mot_de_pass
