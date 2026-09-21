@@ -5,6 +5,7 @@ import com.maisonneuve.music_playlist_manager.model.Playlist;
 import com.maisonneuve.music_playlist_manager.model.Song;
 import com.maisonneuve.music_playlist_manager.services.PlaylistService;
 import com.maisonneuve.music_playlist_manager.services.SongService;
+import com.maisonneuve.music_playlist_manager.util.CsvReader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,6 +30,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class PrincipalController {
+    private static final boolean USE_DATABASE = true;
+
     private PaginationManager paginationManager;
     private SongSortManager songSortManager;
     private SongFilterManager songFilterManager;
@@ -442,6 +445,12 @@ public class PrincipalController {
     }
 
     private void loadSongs() {
+        if (!USE_DATABASE) {
+            CsvReader csvReader = new CsvReader();
+            songFilterManager.setSongs(csvReader.readSongs());
+            return;
+        }
+
         try {
             List<Song> songs = songService.getAllSongs();
             songFilterManager.setSongs(songs);
