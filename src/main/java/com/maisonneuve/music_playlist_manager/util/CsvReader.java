@@ -60,11 +60,20 @@ public class CsvReader {
         String artist = columns[3];
         Genre genre = parseGenre(columns[4]);
         String album = columns[6];
-        String releaseDate = columns[7];
+        int releaseYear = Integer.parseInt(columns[7].substring(0, 4));
         int duration = parseDurationInSeconds(columns[10]);
         int listenCount = Integer.parseInt(columns[11]);
 
-        return new Song();//songId, title, artist, album, releaseDate, genre, duration, listenCount);
+        Song song = new Song();
+        song.setSongId(songId);
+        song.setTitle(title);
+        song.setArtist(artist);
+        song.setAlbum(album);
+        song.setReleaseYear(releaseYear);
+        song.setGenre(genre);
+        song.setDurationSeconds(duration);
+        song.setListenCount(listenCount);
+        return song;
     }
 
     /**
