@@ -115,7 +115,7 @@ public class SongFilterManager {
             return true;
         }
 
-        int releaseYear = Integer.parseInt(song.getReleaseDate().substring(0, 4));
+        int releaseYear = song.getReleaseYear();
         int decadeStart = Integer.parseInt(selectedDecade.substring(0, 4));
         return releaseYear >= decadeStart && releaseYear <= decadeStart + 9;
     }
@@ -127,7 +127,7 @@ public class SongFilterManager {
 
     private boolean matchesDuration(Song song) {
         int maxDurationInSeconds = (int) maxDurationSlider.getValue() * 60;
-        return song.getDuration() <= maxDurationInSeconds;
+        return song.getDurationSeconds() <= maxDurationInSeconds;
     }
 
     private boolean matchesListenCount(Song song) {

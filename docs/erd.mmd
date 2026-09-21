@@ -1,0 +1,68 @@
+---
+Config:
+    layout: ELK
+
+---
+erDiagram
+    PLAYLIST ||--o{ PLAYLIST_SONG : has
+    SONG ||--o{ PLAYLIST_SONG: has
+
+    LIBRARY ||--o{ LIBRARY_SONGS : has
+    LIBRARY ||--o{ LIBRARY_PLAYLIST : has
+
+    SONG ||--o{ LIBRARY_SONGS : has
+    PLAYLIST ||--o{ LIBRARY_PLAYLIST : has
+
+    LIBRARY {
+        VARCHAR library_id PK
+
+        DATE created_at
+        DATE updated_at
+    }
+
+    LIBRARY_SONGS {
+        VARCHAR library_id PK,FK
+        VARCHAR song_id PK,FK
+
+        DATE created_at
+        DATE updated_at
+    }
+
+    LIBRARY_PLAYLIST {
+        VARCHAR library_id PK,FK
+        VARCHAR playlist_id PK,FK
+
+        DATE created_at
+        DATE updated_at
+    }
+
+    SONG {
+        VARCHAR song_id PK
+        VARCHAR title
+        VARCHAR artist
+        VARCHAR album
+        INTEGER release_year
+        VARCHAR genre
+        INTEGER duration_seconds
+        INTEGER listen_count
+
+        DATE created_at
+        DATE updated_at
+    }
+
+    PLAYLIST {
+        VARCHAR playlist_id PK
+        VARCHAR name
+
+        DATE created_at
+        DATE updated_at
+    }
+
+    PLAYLIST_SONG {
+        VARCHAR playlist_id PK, FK
+        VARCHAR song_id PK, FK
+        INTEGER position
+
+        DATE created_at
+        DATE updated_at
+    }

@@ -1,0 +1,183 @@
+---
+config:
+  theme: redux-color
+---
+classDiagram
+    direction LR
+
+    Song "0..*" <-- "0..*" Playlist : references
+    Library "0..*" --> "0..*" Song : references
+    Library "0..*" --> "0..*" Playlist: references
+
+    PlaylistService --> Playlist : manages
+    SongService --> Song : manages
+    LibraryService --> Library : manages
+
+    namespace Models {
+        class Song {
+            -String songId
+            -String title
+            -String artist
+            -String album
+            -int releaseYear
+            -Genre genre
+            -int durationSeconds
+            -int listenCount
+
+            -LocalDate createdAt
+            -LocalDate updatedAt
+
+            +getSongId() String
+            +getTitle() String
+            +getArtist() String
+            +getAlbum() String
+            +getReleaseYear() int
+            +getGenre() Genre
+            +getDuration() int
+            +getListenCount() int
+            +getCreatedAt() LocalDate
+            +getUpdatedAt() LocalDate
+        }
+
+        class Playlist {
+            -String playlistId
+            -String name
+            -List~String~ songIds
+            -int runtime
+
+
+            -LocalDate createdAt
+            -Local Date updatedAt
+
+            +getPlaylistId() String
+            +getName() String
+            +getSongIds() List~String~
+            +getSongPosition(String songId) int
+            +getRuntime() int
+            +getCreatedAt() LocalDate
+            +getUpdatedAt() LocalDate
+        }
+
+        class Library {
+            -String libraryId
+            -List~String~ songIds
+            -List~String~ playlistIds
+
+            -LocalDate createdAt
+            -LocalDate updatedAt
+
+            +getLibraryId() String
+            +getSongIds() List~String~
+            +getPlaylistIds() List~String~
+            +getCreatedAt() LocalDate
+            +getCreatedAt() LocalDate
+        }
+    }
+
+    namespace DAOs {
+class LibraryDao {
++createLibrary(Library l) void
++getLibrary(String libraryId) void
++getLibrarySongs(String libraryId) List~songIds~
++updateLibrary(Library l) void
++deleteLibrary(String libraryId) void
+}
+
+note for SongDao "because songs are preloaded into the Song table the SongDao doesnt do much apart from raising the listen count"
+class SongDao {
++getSongById(String songId) Song
++getSongByTitle(String title) Song
++getAllSongs() List~Song~
++raiseListenCount(String songId) void
+}
+
+note for PlaylistDao "update here is used to both update the playlist info such as its name and to add, remove and reorder playlist"
+class PlaylistDao {
++createPlaylist(Playlist p) void
++getPlaylistById(String playlistId) Playlist
++getPlaylistByName(String name) Playlist
++updatePlaylist(Playlist p) void
++deletePlalyist(String playlistId) void
+        }
+
+note for PlaylistSongDao "represent the link between a song and a playlist"
+class PlaylistSongDao {
++createPlalylistSong(String songId, String playlistId, String songPosition) void
++getPlaylistSong(String songId, String playlistId) void
++getOrderedPlaylist(String playlistId) List~String~
++updatePlaylistSong(String songId, String playlistId, String songPosition) void
++deletePlaylistSong(String songId, String playlistId) void
+}
+
+note for LibraryPlaylistsDao "represent the link between the library and a playlist"
+class LibraryPlaylistsDao {
++createLibraryPlaylist(String LibraryId, String playlistId) void
++getLibraryPlaylist(String LibraryId, String plalyistId) LibraryPlaylist
++updateLibraryPlaylist(String LibraryId, String playlistId) void
++deleteLibraryPlaylist(String LibraryId, String playlistId) void
+}
+
+note for LibrarySongsDao "representes the link between the library and a song"
+class LibrarySongsDao {
++createLibrarySongs(String SongId, String libraryId) void
++getLibrarySongs(String songId, String libraryId) void
++updateLibrarySongs(String songId, String libraryId) void
++deleteLibrarySongs(String songId, String libraryId) void
+}
+
+}
+
+LibraryService --> LibraryDao : uses
+LibraryService --> LibraryPlaylistsDao : uses
+LibraryService --> LibrarySongsDao : uses
+
+SongService --> SongDao : uses
+
+PlaylistService --> PlaylistDao : uses
+PlaylistService --> PlaylistSongDao : uses
+
+namespace Services {
+
+note for LibraryService "contains all actions possible on library"
+class LibraryService {
++createLibrary(Library l) void
++getLibraryById(String libraryId) Library
++updateLibraryById(Library l) void
++deleteLibrary(String libraryId) void
+
++addSongToLibrary(Song s, String libraryId) void
++removeSongFromLibrary(Song s, String libraryId) void
+
++getSongById(String songId, String libraryId) Song
++getSongByTitle(String title, String libraryId) Song
++getAllSongs(String libraryId) List~Song~
+
++getPlaylistById(String playlistId, String libraryId) Playlist
++getPlaylistByName(String name, String libraryId) Playlist
++getAllPlaylists(String libraryId) List~Playlist~
+}
+
+note for SongService "contains all actions possible on a song"
+class SongService {
++getSongById(String songId) Song
++getSongByTitle(String title) Song
++getAllSongs() List~Song~
++raiseListenCount(String songId) void
+}
+
+note for PlaylistService "contains all actions possible on a playlist"
+class PlaylistService {
++createPlaylist(Playlist p, String libraryId) void
++getPlaylistById(String playlistId) Playlist
++getPlaylistByName(String name) Playlist
++getAllPlaylists(String libraryId) List~Playlist~
++updatePlaylist(Playlist p) void
++deletePlaylist(String playlistId) void
+
++addSongToPlaylist(String songId, String playlistId) void
++removeSongFromPlaylist(String songId, String playlistId) void
++reorderSongInPlaylist(String songId, StringPlaylistId, int position) void
+
+        }
+    }
+

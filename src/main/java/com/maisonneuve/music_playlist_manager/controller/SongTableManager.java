@@ -53,9 +53,9 @@ public class SongTableManager {
         genreColumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getGenre()));
         releaseYearColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getReleaseDate()));
+                new SimpleStringProperty(String.valueOf(cellData.getValue().getReleaseYear())));
         durationColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(DurationFormatter.format(cellData.getValue().getDuration())));
+                new SimpleStringProperty(DurationFormatter.format(cellData.getValue().getDurationSeconds())));
         listenCountColumn.setCellValueFactory(cellData ->
                 new SimpleIntegerProperty(cellData.getValue().getListenCount()).asObject());
         setupPlayButtonColumn();

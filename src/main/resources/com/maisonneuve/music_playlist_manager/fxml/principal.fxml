@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -174,6 +175,22 @@
                 <Label fx:id="selectedSongListenCountLabel" text="Écoutes: -"/>
                 <Button fx:id="addSelectedSongToPlaylistButton" mnemonicParsing="false" prefWidth="180.0"
                         text="Ajouter à une playlist"/>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Playlists"/>
+                <ListView fx:id="playlistListView" prefHeight="120.0" prefWidth="180.0"/>
+                <HBox spacing="6.0">
+                    <children>
+                        <Button fx:id="createPlaylistButton" mnemonicParsing="false" prefWidth="87.0" text="Ajouter"/>
+                        <Button fx:id="renamePlaylistButton" mnemonicParsing="false" prefWidth="87.0" text="Modifier"/>
+                    </children>
+                </HBox>
+                <HBox spacing="6.0">
+                    <children>
+                        <Button fx:id="deletePlaylistButton" mnemonicParsing="false" prefWidth="87.0" text="Supprimer"/>
+                        <Button fx:id="viewPlaylistButton" mnemonicParsing="false" prefWidth="87.0" text="Voir"/>
+                    </children>
+                </HBox>
+                <Button fx:id="removeSelectedSongFromPlaylistButton" mnemonicParsing="false" prefWidth="180.0"
+                        text="Retirer chanson"/>
             </children>
             <padding>
                 <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>

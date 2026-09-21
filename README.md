@@ -1,186 +1,97 @@
-# Mudic Catalog - Lab2
+# Music Playlist Manager - Laboratoire 3
 
-**Cours** : 420-930-MA — Algorithmes et modèles de programmation
-**Session** : Été 2026, groupe 25604
-**Laboratoire** : 2 (Application JavaFX v1)
-**Date de remise** : 11 septembre 2026, 23h59
+## Equipe
 
----
+| Nom | Contribution principale |
+| --- | --- |
+| Emile Valade | Modele, DAO, services, base de donnees |
+| Jean-Simon Cyr | Interface JavaFX, controleurs, filtres, tri, pagination, playlists |
 
-## Équipe
+## Sujet
 
-| Nom complet    | Adresse courriel   | Contribution principale           |
-| -------------- |--------------------| --------------------------------- |
-| Émile Valade   | e.valade@proton.me | Modèle + Service + Tris (backend) |
-| Jean-Simon Cyr | jsimcyr@gmail.com  | XML + Controller + CSS (frontend) |
+Sujet 3 - Spotify Playlist Manager
 
----
+Depot GitHub public : https://github.com/Kkiriya/Music-Playlist-Manager
 
-## Sujet choisi
+## Prerequis
 
-**Numéro du sujet** : 3
-**Nom du sujet** : Spotify Playlist Manager
+- Java 17 ou plus
+- Maven
+- PostgreSQL 14 ou plus
+- Base de donnees PostgreSQL nommee `music_playlist_manager`
 
----
+## Configuration de la base de donnees
 
-## 🔗 Lien du dépôt GitHub PUBLIC
+1. Creer la base :
 
-**URL** : https://github.com/Kkiriya/Music-Playlist-Manager
-
-> ⚠️ Vérifier que le dépôt est **PUBLIC** et accessible sans authentification.
-> Tester le lien dans un navigateur privé avant la remise.
-
----
-
-## Fonctionnalités implémentées
-
-### ✅ Obligatoires (cocher ce qui est fait)
-
-- [X] Architecture MVC avec packages séparés (model / service / algorithmes / controller / util)
-- [X] Chargement des données depuis fichier CSV (nombre de lignes : 420 chansons)
-- [X] Interface JavaFX principale avec liste/tableau
-- [X] Panneau détail affichant l'élément sélectionné
-- [X] Pagination fonctionnelle (taille de page : 25 par defaut, options 10 / 25 / 50 / 100)
-- [X] Filtres multi-critères combinables (nombre implémentés : 5 / 4 demandés)
-- [X] Recherche par texte en temps réel
-- [X] Interface Algorithme définie
-- [X] Tri #1 implémenté : Bubble sort
-- [X] Tri #2 implémenté : Selection sort
-- [X] Tri #3 implémenté : Insertion sort
-- [X] Comparateur/benchmark des tris avec mesure du temps
-- [ ] Wishlist / Favoris (ajout, retrait, pas de doublons)
-- [X] CSS appliqué (thème visuel du projet)
-
-### 🎁 Bonus (cocher ce qui est fait)
-
-- [X] Aucun
-
-### ❌ Non implémenté (assumer honnêtement)
-
-- Tout ce qui est playlist
-- Recherche insensible aux accents
-
----
-
-## Structure du projet
-
-```
-Music-Playlist-Manager/
-|-- pom.xml
-|-- src/main/java/
-|   |-- module-info.java
-|   `-- com/maisonneuve/music_playlist_manager/
-|       |-- MainFx.java
-|       |-- model/
-|       |-- algorithm/
-|       |-- controller/
-|       `-- util/
-`-- src/main/resources/com/maisonneuve/music_playlist_manager/
-    |-- fxml/principal.fxml
-    |-- views/lab.fxml
-    |-- styles/theme.css
-    |-- assets/
-    `-- data/songs.csv
+```sql
+CREATE DATABASE music_playlist_manager;
 ```
 
----
+2. Executer le schema :
 
-## Instructions pour lancer le projet
+```text
+src/main/resources/com/maisonneuve/music_playlist_manager/schema.sql
+```
 
-### Prérequis
+3. Executer les donnees :
 
-- JDK 17 ou plus
-- Maven 3.x
-- (optionnel) IntelliJ IDEA / Eclipse
+```text
+src/main/resources/com/maisonneuve/music_playlist_manager/data.sql
+```
 
-### Étapes
+4. Creer le fichier local suivant :
+
+```text
+src/main/resources/database.properties
+```
+
+Exemple :
+
+```properties
+DB_URL=jdbc:postgresql://localhost:5432/music_playlist_manager
+DB_USER=postgres
+DB_PASSWORD=your-password-here
+```
+
+Le vrai fichier `database.properties` ne doit pas etre pousse sur GitHub. Un exemple est fourni dans :
+
+```text
+src/main/resources/database.properties.example
+```
+
+## Lancement
 
 ```bash
-# 1. Cloner le dépôt
-git clone https://github.com/Kkiriya/Music-Playlist-Manager
-cd Music-Playlist-Manager
-
-# 2. Compiler
 mvn clean compile
-
-# 3. Lancer l'application
 mvn javafx:run
 ```
 
-### Alternative dans IntelliJ
+## Fonctionnalites Lab 3
 
-1. Ouvrir le projet dans IntelliJ (File > Open > dossier du projet)
-2. Attendre que Maven télécharge les dépendances
-3. Ouvrir `MainFx.java`
-4. Cliquer sur le bouton Run
+- Chargement des chansons depuis PostgreSQL.
+- Scripts SQL rejouables pour creer et remplir la base.
+- Pattern DAO utilise pour isoler les requetes SQL.
+- Requetes SQL avec `PreparedStatement`.
+- Interface JavaFX conservee du Lab 2 : table, details, filtres, recherche, pagination, tris et benchmark.
+- CRUD minimal sur les playlists depuis l'interface :
+  - creer une playlist;
+  - modifier son nom;
+  - supprimer une playlist;
+  - ajouter une chanson selectionnee a une playlist;
+  - retirer une chanson selectionnee d'une playlist;
+  - afficher les chansons d'une playlist.
+- Gestion de base des erreurs avec des `Alert` JavaFX.
 
----
+## Fonctionnalites non implementees
 
-## Choix techniques
+- Authentification.
+- Favoris persistants par utilisateur.
+- Statistiques SQL et graphiques.
+- Chargement asynchrone.
+- API externe.
 
-### Version Java utilisée
+## Notes
 
-Java 17 avec JavaFX 21.
+Le CRUD principal actuellement expose dans l'interface est celui des playlists. Les chansons sont chargees depuis PostgreSQL et restent disponibles pour les filtres, les tris, la pagination et l'ajout dans les playlists.
 
-### Format des données
-
-CSV avec virgule comme séparateur, lu avec OpenCSV en UTF-8. Le fichier contient 420 chansons.
-
-### Algorithmes de tri implémentés
-
-- Bubble sort : O(n^2)
-- Selection sort : O(n^2)
-- Insertion sort : O(n^2)
-- Merge sort : O(n log n)
-- Quick sort : O(n log n) en moyenne
-
-### Bibliothèques externes utilisées
-
-- OpenCSV pour lire le fichier CSV
-
----
-
-## Difficultés rencontrées
-
-- Lecture du CSV avec des champs contenant des virgules : utilisation de OpenCSV.
-- Mise à jour du tableau JavaFX apres les filtres, tris et pagination.
-- Organisation du contrôleur principal en petites classes pour garder le code plus lisible.
-
----
-
-## Répartition du travail (auto-évaluation)
-
-| Membre  | % contribution estimée | Ce sur quoi j'ai travaillé                                                       |
-| ------- | ---------------------- |----------------------------------------------------------------------------------|
-| Emile Valade | 25% | Base du modele, diagramme de classes,transformation des données |
-| Jean-Simon Cyr | 75% | FXML, controleurs, chargement CSV, filtres, pagination, tri, benchmark, CSS      |
-
----
-
-## Notes pour le correcteur
-
-Le benchmark est accessible avec le bouton `Benchmark` dans la barre du haut.
-
----
-
-## Captures d'écran (fortement recommandé)
-
-### Écran principal
-
-![Écran principal](docs/screenshots/main-screen.png)
-
-### Écran de benchmark
-
-![Benchmark](docs/screenshots/benchmark-screen.png)
-
----
-
-## Historique Git
-
-**Nombre total de commits** : 30
-**Date du premier commit** : 2026-09-08
-**Date du dernier commit** : 2026-09-13
-
-Voir l'onglet **Insights > Contributors** de GitHub pour voir la contribution de chacun.
-
----
