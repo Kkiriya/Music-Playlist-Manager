@@ -32,6 +32,18 @@ public class Playlist {
         return songIds;
     }
 
+    /**
+     * Returns the position of a given song in the list
+     * @param songId
+     * @return -1 if not found
+     */
+    public int getSongPositition(String songId) {
+        for (int i = 0; i < songIds.size(); i++) {
+            if (songIds.get(i) == songId) return i;
+        }
+        return -1;
+    }
+
     public int getRuntime() {
         return runtime;
     }

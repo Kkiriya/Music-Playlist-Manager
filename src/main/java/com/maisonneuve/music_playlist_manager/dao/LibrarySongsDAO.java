@@ -1,6 +1,5 @@
 package com.maisonneuve.music_playlist_manager.dao;
 
-import com.maisonneuve.music_playlist_manager.model.LibraryPlaylist;
 import com.maisonneuve.music_playlist_manager.model.LibrarySongs;
 import com.maisonneuve.music_playlist_manager.util.Connexion;
 
@@ -8,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class LibrarySongsDAO {
 
@@ -31,7 +31,8 @@ public class LibrarySongsDAO {
     }
 
     /**
-     * Returns a LibrarySongs
+     * Returns a LibrarySongs object
+     * aka the litteral line in the db
      * @param songId
      * @param libraryId
      * @return
@@ -50,6 +51,31 @@ public class LibrarySongsDAO {
                     return mapper(rs);
                 }
                 return null;
+            }
+        }
+    }
+
+    /**
+     * Returns a list of all songIds in the given library
+     * aka the actual songs in that library
+     * @param libraryId
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<String> getLibrarySongsIds(String libraryId) throws SQLException {
+        ArrayList<String> songIds = new ArrayList<>();
+
+        String sql =
+                "SELECT * FROM library "
+                        + "WHERE library_id=?";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
+            ps.setString(1, libraryId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    songIds.add(rs.getString("song_id"));
+                }
+                return songIds;
             }
         }
     }

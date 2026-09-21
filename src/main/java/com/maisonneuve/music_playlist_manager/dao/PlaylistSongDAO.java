@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -60,6 +62,32 @@ public class PlaylistSongDAO {
     }
 
     /**
+     * Returns a playlist with all its songId references in order of positions
+     * @param playlistId
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<String> getOrderedPlaylist(String playlistId) throws SQLException {
+        ArrayList<String> orderedPlaylist = new ArrayList<>();
+
+        // query that returns all songIds from a specific playlist in order
+        String sql =
+                "SELECT * FROM playlist_song "
+                + "WHERE playlist_id=? "
+                + "ORDER BY position ASC";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
+            ps.setString(1, playlistId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()) {
+                    orderedPlaylist.add(rs.getString("song_id"));
+                }
+                return orderedPlaylist;
+            }
+        }
+    }
+
+    /**
      * updates the position of a song in a playlist
      * @param songId
      * @param playlistId
@@ -90,7 +118,7 @@ public class PlaylistSongDAO {
             ps.executeUpdate();
         }
     }
-    
+
     /**
      * Transfomr a query result of SELECT * FROM playlist_song into a playlistSong object
      * @param rs
