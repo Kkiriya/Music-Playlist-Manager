@@ -65,7 +65,7 @@ public class SongDetailManager {
         selectedSongAlbumLabel.setText("Album: " + song.getAlbum());
         selectedSongGenreLabel.setText("Genre: " + song.getGenre());
         selectedSongReleaseYearLabel.setText("Annee: " + song.getReleaseYear());
-        selectedSongDurationLabel.setText("Duree: " + DurationFormatter.format(song.getDuration()));
+        selectedSongDurationLabel.setText("Duree: " + DurationFormatter.format(song.getDurationSeconds()));
         selectedSongListenCountLabel.setText("Ecoutes: " + song.getListenCount());
     }
 }

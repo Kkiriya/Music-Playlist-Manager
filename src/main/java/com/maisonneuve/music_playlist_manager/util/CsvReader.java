@@ -64,7 +64,7 @@ public class CsvReader {
         int duration = parseDurationInSeconds(columns[10]);
         int listenCount = Integer.parseInt(columns[11]);
 
-        return new Song(songId, title, artist, album, releaseDate, genre, duration, listenCount);
+        return new Song();//songId, title, artist, album, releaseDate, genre, duration, listenCount);
     }
 
     /**

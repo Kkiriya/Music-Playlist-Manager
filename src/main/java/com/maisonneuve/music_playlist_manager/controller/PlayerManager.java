@@ -100,7 +100,8 @@ public class PlayerManager {
     }
 
     private void startPlayback() {
-        songs.get(currentIndex).incrementListenCount();
+        Song currentSong = songs.get(currentIndex);
+        currentSong.setListenCount(currentSong.getListenCount() + 1);
         onSongUpdated.run();
         playing = true;
         playbackProgressSlider.setValue(0);
