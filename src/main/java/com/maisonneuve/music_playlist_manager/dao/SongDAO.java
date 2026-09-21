@@ -112,11 +112,40 @@ public class SongDAO {
         s.setArtist(rs.getString("artist"));
         s.setAlbum(rs.getString("album"));
         s.setReleaseYear(rs.getInt("release_year"));
-        s.setGenre(Genre.valueOf(rs.getString("genre"))); // converts the stored string back into an enum
+        s.setGenre(mapGenre(rs.getString("genre")));
         s.setDurationSeconds(rs.getInt("duration_seconds"));
         s.setListenCount(rs.getInt("listen_count"));
         s.setCreatedAt(rs.getDate("created_at").toLocalDate());
         s.setUpdatedAt(rs.getDate("updated_at").toLocalDate());
         return s;
+    }
+
+    private Genre mapGenre(String value) {
+        if (value == null || value.isBlank()) {
+            return Genre.POP;
+        }
+
+        String normalizedValue = value.trim().toLowerCase();
+
+        for (Genre genre : Genre.values()) {
+            if (genre.toString().equalsIgnoreCase(normalizedValue)) {
+                return genre;
+            }
+        }
+
+        String firstGenre = normalizedValue.split(",")[0].trim();
+        for (Genre genre : Genre.values()) {
+            if (genre.toString().equalsIgnoreCase(firstGenre)) {
+                return genre;
+            }
+        }
+
+        for (Genre genre : Genre.values()) {
+            if (normalizedValue.contains(genre.toString().toLowerCase())) {
+                return genre;
+            }
+        }
+
+        return Genre.POP;
     }
 }

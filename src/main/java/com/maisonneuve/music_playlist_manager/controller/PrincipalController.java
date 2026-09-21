@@ -2,10 +2,11 @@ package com.maisonneuve.music_playlist_manager.controller;
 
 import com.maisonneuve.music_playlist_manager.model.Genre;
 import com.maisonneuve.music_playlist_manager.model.Song;
-import com.maisonneuve.music_playlist_manager.util.CsvReader;
+import com.maisonneuve.music_playlist_manager.services.SongService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -17,6 +18,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PrincipalController {
@@ -25,6 +28,7 @@ public class PrincipalController {
     private SongFilterManager songFilterManager;
     private PlayerManager playerManager;
     private SongDetailManager songDetailManager;
+    private final SongService songService = new SongService();
 
     @FXML
     private TextField searchField;
@@ -274,8 +278,20 @@ public class PrincipalController {
     }
 
     private void loadSongs() {
-        CsvReader csvReader = new CsvReader();
-        List<Song> songs = csvReader.readSongs();
-        songFilterManager.setSongs(songs);
+        try {
+            List<Song> songs = songService.getAllSongs();
+            songFilterManager.setSongs(songs);
+        } catch (SQLException exception) {
+            songFilterManager.setSongs(new ArrayList<>());
+            showError("Impossible de charger les chansons depuis la base de donnees.");
+        }
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
