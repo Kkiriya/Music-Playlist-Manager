@@ -94,14 +94,14 @@ public class PlaylistSongDAO {
      * @param songPosition
      * @throws SQLException
      */
-    public void updatePlaylistSong(String songId, String playlistId, String songPosition) throws SQLException {
+    public void updatePlaylistSong(String songId, String playlistId, int songPosition) throws SQLException {
         String sql =
                 "UPDATE playlist_song "
                 + "SET position=?, updated_at=CURRENT_TIMESTAMP "
                 + "WHERE playlist_id=? AND song_id=?";
         try (Connection co = Connexion.open();
              PreparedStatement ps = co.prepareStatement(sql)) {
-            ps.setString(1, songPosition);
+            ps.setInt(1, songPosition);
             ps.setString(2, playlistId);
             ps.setString(3, songId);
             ps.executeUpdate();

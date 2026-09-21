@@ -76,6 +76,24 @@ public class PlaylistDAO {
     }
 
     /**
+     * Returns every playlist in the database.
+     */
+    public List<Playlist> getAllPlaylists() throws SQLException {
+        List<Playlist> playlists = new ArrayList<>();
+
+        String sql = "SELECT * FROM playlist ORDER BY name ASC";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                playlists.add(mapper(rs));
+            }
+        }
+
+        return playlists;
+    }
+
+    /**
      * Updates the playlist
      * Will be called when songs are added to the playlist even if nothing changes in its values
      * @param p

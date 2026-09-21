@@ -26,6 +26,23 @@ public class PlaylistService {
     }
 
     /**
+     * Creates a playlist without requiring a library link.
+     */
+    public void createPlaylist(Playlist p) throws SQLException {
+        validatePlaylistForSave(p);
+
+        if (playlistDAO.getPlaylistById(p.getPlaylistId()) != null) {
+            throw new IllegalArgumentException("Playlist already exists: " + p.getPlaylistId());
+        }
+
+        if (playlistDAO.getPlaylistByName(p.getName()) != null) {
+            throw new IllegalArgumentException("Playlist name already exists: " + p.getName());
+        }
+
+        playlistDAO.createPlaylist(p);
+    }
+
+    /**
      * Creates a playlist and all its neccessary add-ons in the db
      * From the provided playlist item and the library in which it is created
      * Library should always be created empty (without songs)
@@ -71,6 +88,7 @@ public class PlaylistService {
         // populates the playlist with its proper songIds
         playlist.setSongIds(playlistSongDAO.getOrderedPlaylist(playlist.getPlaylistId()));
 
+        playlist.setRuntime(0);
         // calculates the runtime for the playlist
         for (String songId: playlist.getSongIds()) {
             // adds current song runtime to the current playlist runtime
@@ -101,6 +119,7 @@ public class PlaylistService {
         // populates the playlist with its proper songIds
         playlist.setSongIds(playlistSongDAO.getOrderedPlaylist(playlist.getPlaylistId()));
 
+        playlist.setRuntime(0);
         // calculates the runtime for the playlist
         for (String songId: playlist.getSongIds()) {
             // adds current song runtime to the current playlist runtime
@@ -140,15 +159,32 @@ public class PlaylistService {
     }
 
     /**
+     * Returns every playlist without filtering by library.
+     */
+    public List<Playlist> getAllPlaylists() throws SQLException {
+        List<Playlist> playlists = playlistDAO.getAllPlaylists();
+
+        for (Playlist playlist : playlists) {
+            playlist.setSongIds(playlistSongDAO.getOrderedPlaylist(playlist.getPlaylistId()));
+            playlist.setRuntime(0);
+            for (String songId : playlist.getSongIds()) {
+                Song song = songDAO.getSongById(songId);
+                if (song != null) {
+                    playlist.setRuntime(playlist.getRuntime() + song.getDurationSeconds());
+                }
+            }
+        }
+
+        return playlists;
+    }
+
+    /**
      * Updates specified playlist
      * @param p
      * @throws SQLException
      */
     public void updatePlaylist(Playlist p)throws SQLException {
-        if (p == null) throw new IllegalArgumentException("Playlist object must be provided");
-
-        if (p.getPlaylistId() == null) throw new IllegalArgumentException("Playlist must be initialised");
-        if (p.getName() == null) throw new IllegalArgumentException("Playlist must have a name");
+        validatePlaylistForSave(p);
 
         // checks if playlist exists
         if (playlistDAO.getPlaylistById(p.getPlaylistId()) == null) throw new IllegalArgumentException("Playlist does" +
@@ -192,6 +228,10 @@ public class PlaylistService {
 
         // gets the actualy playlist
         Playlist playlist = getPlaylistById(playlistId);
+        if (playlist.getSongIds().contains(songId)) {
+            throw new IllegalArgumentException("Song already exists in playlist: " + songId);
+        }
+
         ArrayList<String> songIds = playlist.getSongIds();
         songIds.add(songId);
         playlist.setSongIds(songIds);
@@ -220,6 +260,9 @@ public class PlaylistService {
         // verify playlist exist
         Playlist p = getPlaylistById(playlistId);
         if (p == null) throw new IllegalArgumentException("Playlist not found: " + playlistId);
+        if (!p.getSongIds().contains(songId)) {
+            throw new IllegalArgumentException("Song does not exist in playlist: " + songId);
+        }
 
         // deletes the playlist_song object
         playlistSongDAO.deletePlaylistSong(songId, playlistId);
@@ -254,7 +297,33 @@ public class PlaylistService {
         }
 
         // updates the playlist with the new order
+        for (int i = 0; i < songs.size(); i++) {
+            playlistSongDAO.updatePlaylistSong(songs.get(i), playlistId, i);
+        }
         playlistDAO.updatePlaylist(p);
+    }
+
+    /**
+     * Returns the songs contained in a playlist, in playlist order.
+     */
+    public List<Song> getPlaylistSongs(String playlistId) throws SQLException {
+        Playlist playlist = getPlaylistById(playlistId);
+        List<Song> songs = new ArrayList<>();
+
+        for (String songId : playlist.getSongIds()) {
+            Song song = songDAO.getSongById(songId);
+            if (song != null) {
+                songs.add(song);
+            }
+        }
+
+        return songs;
+    }
+
+    private void validatePlaylistForSave(Playlist p) {
+        if (p == null) throw new IllegalArgumentException("Playlist object must be provided");
+        if (isEmptyStr(p.getPlaylistId())) throw new IllegalArgumentException("Playlist must be initialised");
+        if (isEmptyStr(p.getName())) throw new IllegalArgumentException("Playlist must have a name");
     }
 
     /**
