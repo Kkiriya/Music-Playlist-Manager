@@ -115,7 +115,7 @@ public class SongFilterManager {
             return true;
         }
 
-        int releaseYear = Integer.parseInt(song.getReleaseDate().substring(0, 4));
+        int releaseYear = Integer.parseInt(song.getReleaseYear().substring(0, 4));
         int decadeStart = Integer.parseInt(selectedDecade.substring(0, 4));
         return releaseYear >= decadeStart && releaseYear <= decadeStart + 9;
     }

@@ -13,71 +13,35 @@ import java.util.List;
 public class PlaylistDAO {
 
     /**
-     * Adds a new playlist to the db from the playlist object given
+     * Creates a playlist into the db
      * @param p
      * @throws SQLException
      */
     public void createPlaylist(Playlist p) throws SQLException {
-        String sql = "INSERT INTO playlist "
+        String sql =
+                "INSERT INTO playlist "
                 + "(playlist_id, name) "
                 + "VALUES (?, ?)";
-
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql)) {
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
             ps.setString(1, p.getPlaylistId());
             ps.setString(2, p.getName());
-
             ps.executeUpdate();
         }
     }
 
     /**
-     * updates a playlist with the new playlist item provided
-     * @param p
-     * @throws SQLException
-     */
-    public void updatePlaylist(Playlist p) throws SQLException {
-        String sql = "UPDATE playlist "
-                + "SET name=?, updated_at=CURRENT_TIMESTAMP "
-                + "WHERE playlist_id=?";
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql)) {
-            ps.setString(1, p.getName());
-
-            ps.executeUpdate();
-        }
-    }
-
-    /**
-     * Deletes a playlist
-     * @param playlistId
-     * @throws SQLException
-     */
-    public void deletePlaylist(String playlistId) throws SQLException {
-        String sql = "DELETE FROM playlist WHERE playlist_id=?";
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql)) {
-            ps.setString(1, playlistId);
-            ps.executeUpdate();
-        }
-    }
-
-    /**
-     * returns the playlist that matches the given id
+     * Returns a playlist using its id
      * @param playlistId
      * @return
      * @throws SQLException
      */
-    public Playlist getPlaylist(String playlistId) throws SQLException {
+    public Playlist getPlaylistById(String playlistId) throws SQLException {
         String sql =
                 "SELECT * FROM playlist "
-                + "WHERE playlist_id = ?";
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql)) {
+                + "WHERE playlist_id=?";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
             ps.setString(1, playlistId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -89,24 +53,55 @@ public class PlaylistDAO {
     }
 
     /**
-     * Returns a list of all playlist available in the db as a list of playlist objects
+     * Returns a playlist using its name
+     * Doesnt support cas insentitive and progressive search yet
+     * @param name
      * @return
      * @throws SQLException
      */
-    public List<Playlist> getAllPlaylists() throws SQLException {
-        String sql = "SELECT * FROM playlist ";
-
-        List<Playlist> playlists = new ArrayList<>();
-
-        try (
-                Connection co = Connexion.open();
-                PreparedStatement ps = co.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                playlists.add(mapper(rs));
+    public Playlist getPlaylistByName(String name) throws SQLException {
+        String sql =
+                "SELECT * FROM playlist "
+                        + "WHERE name=?";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
+            ps.setString(1, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapper(rs);
+                }
+                return null;
             }
         }
-        return playlists;
+    }
+
+    /**
+     * Updates the playlist
+     * Will be called when songs are added to the playlist even if nothing changes in its values
+     * @param p
+     * @throws SQLException
+     */
+    public void updatePlaylist(Playlist p) throws SQLException {
+        String sql =
+                "UPDATE playlist "
+                + "SET name=?, updated_at=CURRENT_TIMESTAMP "
+                + "WHERE playlist_id=?";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
+            ps.setString(1, p.getName());
+            ps.setString(2, p.getPlaylistId());
+            ps.executeUpdate();
+        }
+    }
+
+    public void deletePlaylist(String playlistId) throws SQLException {
+        String sql =
+                "DELETE FROM playlist WHERE playlist_id=?";
+        try (Connection co = Connexion.open();
+             PreparedStatement ps = co.prepareStatement(sql)) {
+            ps.setString(1, playlistId);
+            ps.executeUpdate();
+        }
     }
 
     /**
@@ -116,9 +111,11 @@ public class PlaylistDAO {
      * @throws SQLException
      */
     private Playlist mapper(ResultSet rs) throws SQLException {
-        return new Playlist(
-                rs.getString("playlist_id"),
-                rs.getString("name")
-        );
+        Playlist p = new Playlist();
+        p.setPlaylistId(rs.getString("playlist_id"));
+        p.setName(rs.getString("name"));
+        p.setCreatedAt(rs.getDate("created_at").toLocalDate());
+        p.setUpdatedAt(rs.getDate("updated_at").toLocalDate());
+        return p;
     }
 }

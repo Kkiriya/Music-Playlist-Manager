@@ -1,6 +1,40 @@
+---
+Config:
+    layout: ELK
+
+---
 erDiagram
-    PLAYLIST ||--o{ PLAYLIST_SONG : contains
-    SONG ||--o{ PLAYLIST_SONG: references
+    PLAYLIST ||--o{ PLAYLIST_SONG : has
+    SONG ||--o{ PLAYLIST_SONG: has
+
+    LIBRARY ||--o{ LIBRARY_SONGS : has
+    LIBRARY ||--o{ LIBRARY_PLAYLIST : has
+
+    SONG ||--o{ LIBRARY_SONGS : has
+    PLAYLIST ||--o{ LIBRARY_PLAYLIST : has
+
+    LIBRARY {
+        VARCHAR library_id PK
+
+        DATE created_at
+        DATE updated_at
+    }
+
+    LIBRARY_SONGS {
+        VARCHAR library_id PK,FK
+        VARCHAR song_id PK,FK
+
+        DATE created_at
+        DATE updated_at
+    }
+
+    LIBRARY_PLAYLIST {
+        VARCHAR library_id PK,FK
+        VARCHAR playlist_id PK,FK
+
+        DATE created_at
+        DATE updated_at
+    }
 
     SONG {
         VARCHAR song_id PK

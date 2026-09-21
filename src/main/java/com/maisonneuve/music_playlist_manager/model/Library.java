@@ -1,43 +1,64 @@
 package com.maisonneuve.music_playlist_manager.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Library {
-    private final String libraryId;
+    private String libraryId;
+    private List<String> songIds;
+    private List<String> playlistsIds;
 
-//    /**
-//     * If user already has some songs and playlist load them up otherwise
-//     * create empty lists
-//     * @param loadedSongs
-//     * @param loadedPlaylist
-//     */
-//    public Library(ArrayList<Song> loadedSongs, ArrayList<Playlist> loadedPlaylist) {
-//        if(!loadedSongs.isEmpty() && !loadedPlaylist.isEmpty()) {
-//            this.songs = loadedSongs;
-//            this.playlists = loadedPlaylist;
-//        } else {
-//            // tbd
-//        }
-//    }
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
-    /**
-     * Default constructor for Library
-     * PS. Library as of now acts as the users personal library of songs
-     * loaded into memory, and allows us to store any songs the user wishes to
-     * into DB, The songs the user sees on screen are loaded through straight
-     * from the CSV or whatever date source we eventually have
-     */
-    public Library(){
-        this.libraryId = UUID.randomUUID().toString(); // for when users are eventually implemented
-    }
-
-    public Library(String libraryId) {
-        this.libraryId = libraryId;
+    public Library() {
+        this.libraryId = UUID.randomUUID().toString();
+        this.songIds = new ArrayList<>();
+        this.playlistsIds = new ArrayList<>();
+        this.createdAt = LocalDate.now();
+        this.updatedAt = createdAt;
     }
 
     public String getLibraryId() {
         return libraryId;
+    }
+
+    public List<String> getSongIds() {
+        return songIds;
+    }
+
+    public List<String> getPlaylistsIds() {
+        return playlistsIds;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDate getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setLibraryId(String libraryId) {
+        this.libraryId = libraryId;
+    }
+
+    public void setSongIds(List<String> songIds) {
+        this.songIds = songIds;
+    }
+
+    public void setPlaylistsIds(List<String> playlistsIds) {
+        this.playlistsIds = playlistsIds;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override

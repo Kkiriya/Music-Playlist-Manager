@@ -3,18 +3,13 @@ package com.maisonneuve.music_playlist_manager.model;
 import java.time.LocalDate;
 
 public class LibrarySongs {
-    private final String libraryId;
-    private final String songId;
+    private String libraryId;
+    private String songId;
 
-    private final LocalDate createdAt;
-    private final LocalDate updatedAt;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
-    public LibrarySongs(
-            String libraryId,
-            String songId
-    ) {
-        this.libraryId = libraryId;
-        this.songId = songId;
+    public LibrarySongs() {
         this.createdAt = LocalDate.now();
         this.updatedAt = createdAt;
     }
@@ -23,15 +18,36 @@ public class LibrarySongs {
         return libraryId;
     }
 
+    public void setLibraryId(String libraryId) {
+        this.libraryId = libraryId;
+    }
+
     public String getSongId() {
         return songId;
+    }
+
+    public void setSongId(String songId) {
+        this.songId = songId;
     }
 
     public LocalDate getCreatedAt() {
         return createdAt;
     }
 
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public LocalDate getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return libraryId = "-" + songId;
     }
 }

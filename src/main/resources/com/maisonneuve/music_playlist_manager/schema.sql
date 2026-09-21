@@ -21,7 +21,10 @@ CREATE TABLE song(
 -- ==================================
 
 CREATE TABLE library(
-    library_id VARCHAR(36) PRIMARY KEY
+    library_id VARCHAR(36) PRIMARY KEY,
+
+    created_at DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ==================================
@@ -44,6 +47,9 @@ CREATE TABLE library_songs(
     library_id VARCHAR(36) NOT NULL,
     song_id VARCHAR(36) NOT NULL,
 
+    created_at DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
     PRIMARY KEY (library_id, song_id),
 
     FOREIGN KEY (library_id)
@@ -62,6 +68,9 @@ CREATE TABLE library_songs(
 CREATE TABLE library_playlist(
     library_id VARCHAR(36) NOT NULL,
     playlist_id VARCHAR(36) NOT NULL,
+
+    created_at DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (library_id, playlist_id),
 
